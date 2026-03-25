@@ -1,0 +1,642 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+
+\title{\vspace{-2cm} Zian Kang}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Question 1}
+
+Statement: {Let $G$ be the graph shown, with four vertices arranged as in the figure, having $2$ parallel edges on the top, $3$ on the left, $2$ on the right, $4$ on the bottom, and one diagonal edge from the bottom-left vertex to the top-right vertex. Use the Matrix Tree Theorem to find a matrix whose determinant is $\tau(G)$. Compute $\tau(G)$.}
+
+\medskip
+
+\begin{enumerate}
+    \item Label the vertices as follows:
+\[
+v_1=\text{top-left},\qquad
+v_2=\text{top-right},\qquad
+v_3=\text{bottom-left},\qquad
+v_4=\text{bottom-right}.
+\]
+
+Then the edge multiplicities are
+\[
+m(v_1v_2)=2,\qquad
+m(v_1v_3)=3,\qquad
+m(v_2v_3)=1,\qquad
+m(v_2v_4)=2,\qquad
+m(v_3v_4)=4.
+\]
+
+Hence the degrees are
+\[
+d(v_1)=5,\qquad d(v_2)=5,\qquad d(v_3)=8,\qquad d(v_4)=6.
+\]
+
+Therefore the Laplacian matrix is
+\[
+L=
+\begin{pmatrix}
+5 & -2 & -3 & 0\\
+-2 & 5 & -1 & -2\\
+-3 & -1 & 8 & -4\\
+0 & -2 & -4 & 6
+\end{pmatrix}.
+\]
+
+\item By the Matrix Tree Theorem, $\tau(G)$ is any cofactor of $L$. Delete the fourth row and fourth column. Then
+\[
+L'=
+\begin{pmatrix}
+5 & -2 & -3\\
+-2 & 5 & -1\\
+-3 & -1 & 8
+\end{pmatrix},
+\]
+so
+\[
+\tau(G)=\det(L').
+\]
+
+Now compute:
+\[
+\det(L')
+=
+5\begin{vmatrix}5&-1\\-1&8\end{vmatrix}
+-(-2)\begin{vmatrix}-2&-1\\-3&8\end{vmatrix}
++(-3)\begin{vmatrix}-2&5\\-3&-1\end{vmatrix}.
+\]
+
+Thus
+\[
+\tau(G)
+=
+5(40-1)+2(-16-3)-3(2+15).
+\]
+
+So
+\[
+\tau(G)=195-38-51=106.
+\]
+
+Therefore
+\[
+\tau(G)=106.
+\]
+\end{enumerate}
+
+
+\newpage
+
+\section*{Question 2}
+
+Statement: {Let $G$ be the $3$-regular graph with $4m$ vertices formed from $m$ pairwise disjoint kites by adding $m$ edges to link them in a ring. Prove that $\tau(G)=2m8^m$.}
+
+\medskip
+
+\begin{proof}
+~
+\begin{enumerate}
+    \item Let the added edges joining consecutive kites be called link edges.
+
+A kite is $K_4-e$, so it has $5$ edges. A spanning tree of a kite has $3$ edges. Since
+\[
+\binom{5}{3}=10,
+\]
+and exactly two $3$-edge choices form triangles, the number of spanning trees of one kite is
+\[
+10-2=8.
+\]
+
+\item Consider a spanning tree $T$ of the whole ring of $m$ kites:
+ $T$ cannot omit two link edges, because then the graph breaks into two components. Hence $T$ omits at most one link edge. Therefore there are two cases.
+
+\begin{enumerate}
+\item $T$ uses exactly $m-1$ link edges:
+
+Then one link edge is deleted, which breaks the ring into a chain. Inside each kite, we must choose a spanning tree. Hence the number of spanning trees of this type is
+\[
+m\cdot 8^m,
+\]
+since there are $m$ choices for the omitted link edge and $8$ choices for the spanning tree in each kite.
+
+\item $T$ uses all $m$ link edges:
+
+Since the whole graph has $4m$ vertices, a spanning tree has $4m-1$ edges. Using all $m$ link edges leaves
+\[
+(4m-1)-m=3m-1
+\]
+edges chosen inside the kites.
+
+Every kite needs at least $2$ internal edges to keep its four vertices attached to the rest of the graph, and any kite with $4$ or $5$ internal edges would create a cycle. Hence exactly one kite contributes $2$ internal edges, and each of the other $m-1$ kites contributes $3$ internal edges, i.e. a spanning tree.
+
+For the special kite, the two link vertices must not be connected internally, otherwise together with the ring of link edges we obtain a cycle. Thus we choose $2$ of the $5$ internal edges, except for the two choices that form a $2$-edge path joining the two link vertices. Hence the special kite also has
+\[
+\binom{5}{2}-2=8
+\]
+valid choices.
+
+So the number of spanning trees of this type is also
+\[
+m\cdot 8^m.
+\]
+\end{enumerate}
+
+\item Adding the two cases,
+\[
+\tau(G)=m8^m+m8^m=2m8^m.
+\]
+\end{enumerate}
+\end{proof}
+
+\newpage
+
+\section*{Question 3}
+
+Statement: {Using the Pr\"ufer code, count the following:
+\begin{enumerate}
+\item Count the number of trees on vertex set $[n]$ with exactly $2$ leaves.
+\item Count the number of trees on vertex set $[n]$ with exactly $n-2$ leaves.
+\end{enumerate}}
+
+\medskip
+
+\begin{enumerate}
+\item In a tree on $[n]$, the number of occurrences of a label in the Pr\"ufer code is one less than its degree.
+
+Having exactly $2$ leaves means exactly two vertices have degree $1$, and every other vertex has degree $2$. Hence the tree is a path. In the Pr\"ufer code, this means every entry is distinct, so we need an ordered list of length $n-2$ with distinct entries from $[n]$.
+
+The number of such codes is
+\[
+n(n-1)\cdots 3=\frac{n!}{2}.
+\]
+
+Therefore the number of trees on $[n]$ with exactly $2$ leaves is
+\[
+\frac{n!}{2}.
+\]
+
+\item Having exactly $n-2$ leaves means exactly two vertices are not leaves. Hence exactly two labels appear in the Pr\"ufer code, and each must appear at least once.
+
+Choose the two labels in
+\[
+\binom{n}{2}
+\]
+ways. Then form a code of length $n-2$ using those two labels, with both used at least once. There are
+\[
+2^{\,n-2}-2
+\]
+such sequences.
+
+Thus the number of trees is
+\[
+\binom{n}{2}\bigl(2^{\,n-2}-2\bigr).
+\]
+\end{enumerate}
+
+\newpage
+
+\section*{Question 4}
+
+Statement: {Compute $\tau(K_{2,m})$. Also compute the number of isomorphism classes of spanning trees of $K_{2,m}$.}
+
+\begin{enumerate}
+    \item Let the part of size $2$ be $\{x,y\}$ and the part of size $m$ be $\{u_1,\dots,u_m\}$. In any spanning tree $T$ of $K_{2,m}$, each $u_i$ has degree $1$ or $2$, since it is adjacent only to $x$ and $y$. Let $r$ be the number of vertices among the $u_i$ with degree $2$. Then the sum of degrees on the $\{u_i\}$ side is
+\[
+2r+(m-r)=m+r.
+\]
+But this also equals the number of edges of the tree, namely
+\[
+|E(T)|=(m+2)-1=m+1.
+\]
+Hence
+\[
+m+r=m+1,
+\]
+so
+\[
+r=1.
+\]
+
+Thus every spanning tree has exactly one vertex $u_i$ adjacent to both $x$ and $y$, and every other $u_j$ is attached to exactly one of $x,y$.
+
+\item So:
+\begin{enumerate}
+\item choose the unique degree-$2$ vertex on the $m$-side in $m$ ways;
+\item for each of the remaining $m-1$ vertices, choose whether it is attached to $x$ or to $y$.
+\end{enumerate}
+
+Therefore
+\[
+\tau(K_{2,m})=m\cdot 2^{m-1}.
+\]
+
+\item Now determine the isomorphism classes. Once the unique degree-$2$ vertex is fixed, the spanning tree is determined up to isomorphism by how many leaves are attached to $x$ and how many to $y$. If $a$ leaves are attached to $x$ and $b$ leaves are attached to $y$, then
+\[
+a+b=m-1.
+\]
+Swapping $x$ and $y$ gives an isomorphic tree, so only the unordered pair $\{a,b\}$ matters.
+
+Hence the number of isomorphism classes equals the number of unordered pairs of nonnegative integers summing to $m-1$, which is
+\[
+\left\lfloor \frac{m+1}{2}\right\rfloor.
+\]
+
+\item Thus
+\[
+\tau(K_{2,m})=m2^{m-1},
+\qquad
+\text{and the number of isomorphism classes is }
+\left\lfloor \frac{m+1}{2}\right\rfloor.
+\]
+\end{enumerate}
+
+\newpage
+
+\section*{Question 5}
+
+Statement: {Prove or disprove: If $T$ is a minimum-weight spanning tree of a weighted graph $G$, then the $u,v$-path in $T$ is a minimum-weight $u,v$-path in $G$.}
+
+\begin{proof}
+~
+\begin{enumerate}
+    \item This statement is false.
+
+\item Consider the triangle on vertices $\{u,v,w\}$ with edge weights
+\[
+w(uw)=1,\qquad w(wv)=1,\qquad w(uv)=\frac32.
+\]
+
+The minimum-weight spanning tree is
+\[
+T=\{uw,wv\},
+\]
+with total weight $2$.
+
+\item However, the $u,v$-path in $T$ is
+\[
+u-w-v,
+\]
+whose total weight is
+\[
+1+1=2.
+\]
+But in $G$ there is a direct $u,v$-path consisting of the single edge $uv$, with weight
+\[
+\frac32<2.
+\]
+
+So the $u,v$-path in an MST need not be a minimum-weight $u,v$-path in $G$.
+\end{enumerate}
+\end{proof}
+
+\newpage
+
+\section*{Question 6}
+
+Statement: {There are five cities in a network. The travel time for traveling directly from $i$ to $j$ is the entry $a_{ij}$ in the matrix below, with $\infty$ meaning there is no direct route. Determine the least travel time and quickest route from $i$ to $j$ for each pair $i,j$.}
+
+\begin{enumerate}
+    \item The matrix is
+\[
+A=
+\begin{pmatrix}
+0 & 10 & 20 & \infty & 17\\
+7 & 0 & 5 & 22 & 33\\
+14 & 13 & 0 & 15 & 27\\
+30 & \infty & 17 & 0 & 10\\
+\infty & 15 & 12 & 8 & 0
+\end{pmatrix}.
+\]
+
+Applying Floyd's algorithm gives the all-pairs shortest-path matrix
+\[
+D=
+\begin{pmatrix}
+0 & 10 & 15 & 25 & 17\\
+7 & 0 & 5 & 20 & 24\\
+14 & 13 & 0 & 15 & 25\\
+30 & 25 & 17 & 0 & 10\\
+22 & 15 & 12 & 8 & 0
+\end{pmatrix}.
+\]
+
+\item The quickest routes are:
+
+\begin{enumerate}
+\item From city $1$:
+\[
+1\to 2:\ 10,\quad \text{route }1-2.
+\]
+\[
+1\to 3:\ 15,\quad \text{route }1-2-3.
+\]
+\[
+1\to 4:\ 25,\quad \text{route }1-5-4.
+\]
+\[
+1\to 5:\ 17,\quad \text{route }1-5.
+\]
+
+\item From city $2$:
+\[
+2\to 1:\ 7,\quad \text{route }2-1.
+\]
+\[
+2\to 3:\ 5,\quad \text{route }2-3.
+\]
+\[
+2\to 4:\ 20,\quad \text{route }2-3-4.
+\]
+\[
+2\to 5:\ 24,\quad \text{route }2-1-5.
+\]
+
+\item From city $3$:
+\[
+3\to 1:\ 14,\quad \text{route }3-1.
+\]
+\[
+3\to 2:\ 13,\quad \text{route }3-2.
+\]
+\[
+3\to 4:\ 15,\quad \text{route }3-4.
+\]
+\[
+3\to 5:\ 25,\quad \text{route }3-4-5.
+\]
+
+\item From city $4$:
+\[
+4\to 1:\ 30,\quad \text{route }4-1.
+\]
+\[
+4\to 2:\ 25,\quad \text{route }4-5-2.
+\]
+\[
+4\to 3:\ 17,\quad \text{route }4-3.
+\]
+\[
+4\to 5:\ 10,\quad \text{route }4-5.
+\]
+
+\item From city $5$:
+\[
+5\to 1:\ 22,\quad \text{route }5-2-1.
+\]
+\[
+5\to 2:\ 15,\quad \text{route }5-2.
+\]
+\[
+5\to 3:\ 12,\quad \text{route }5-3.
+\]
+\[
+5\to 4:\ 8,\quad \text{route }5-4.
+\]
+\end{enumerate}
+\end{enumerate}
+
+\newpage
+
+\section*{Question 7}
+
+Statement: {Let $T$ be a minimum-weight spanning tree in $G$, and let $T'$ be another spanning tree in $G$. Prove that $T'$ can be transformed into $T$ by a list of steps that exchange one edge of $T'$ for one edge of $T$, such that the edge set is always a spanning tree and the total weight never increases.}
+
+\begin{proof}
+~
+\begin{enumerate}
+    \item Induction on
+\[
+|E(T)\setminus E(T')|.
+\]
+
+If this number is $0$, then $T'=T$, and there is nothing to prove.
+
+Now assume $T'\neq T$. Choose an edge
+\[
+e\in E(T)\setminus E(T').
+\]
+Add $e$ to $T'$. Since $T'$ is a tree, the graph $T'+e$ contains a unique cycle $C$.
+
+Because $T$ is a tree, $C$ cannot lie entirely in $T$, so there exists an edge
+\[
+f\in E(C)\setminus E(T).
+\]
+Then
+\[
+T_1:=T'+e-f
+\]
+is again a spanning tree.
+
+\item Inductive Step:
+\[
+w(T_1)\le w(T').
+\]
+
+Delete $e$ from $T$. This separates $T$ into two components, say with vertex sets $A$ and $B$. Since $e$ rejoins these components, it crosses the cut $(A,B)$. The cycle $C$ in $T'+e$ also contains another edge $f$ crossing this same cut. If
+\[
+w(f)<w(e),
+\]
+then replacing $e$ by $f$ in $T$ would produce a spanning tree lighter than $T$, contradicting the minimality of $T$. Hence
+\[
+w(e)\le w(f).
+\]
+
+Therefore
+\[
+w(T_1)=w(T')+w(e)-w(f)\le w(T').
+\]
+
+Also, since $e\in E(T)$ and $f\notin E(T)$, we have
+\[
+|E(T)\setminus E(T_1)|=|E(T)\setminus E(T')|-1.
+\]
+By the induction hypothesis, $T_1$ can be transformed into $T$ by such exchanges, always staying within the class of spanning trees and never increasing total weight. Prepending the exchange $T'\mapsto T_1$ completes the proof.
+\end{enumerate}
+\end{proof}
+
+\newpage
+
+\section*{Question 8}
+
+Statement: {Minimum diameter spanning tree.
+\begin{enumerate}
+\item Construct a $5$-vertex example of an unweighted graph such that Dijkstra's algorithm can be run from some center and produce a spanning tree that does not have minimum diameter.
+\item Construct a $4$-vertex example of a weighted graph such that Dijkstra's algorithm cannot produce an MDST when run from any vertex.
+\end{enumerate}}
+
+\medskip
+
+\begin{enumerate}
+\item Let
+\[
+V(G)=\{s,a,b,c,d\},
+\]
+and let
+\[
+E(G)=\{sa,sb,ac,ad,bc,bd\}.
+\]
+
+This is the graph obtained by taking the bipartite graph with parts $\{a,b\}$ and $\{c,d\}$ and then adding the edges $sa,sb$.
+
+The vertex $s$ is a center, since
+\[
+d(s,a)=d(s,b)=1,\qquad d(s,c)=d(s,d)=2,
+\]
+so its eccentricity is $2$.
+
+Now run Dijkstra's algorithm from $s$. Because $a$ and $b$ are both at distance $1$, and $c,d$ are both at distance $2$, tie-breaking may be done arbitrarily. One possible shortest-path tree is
+\[
+T=\{sa,sb,ac,bd\}.
+\]
+This is a shortest-path tree from $s$, but its diameter is $4$, since the path from $c$ to $d$ is
+\[
+c-a-s-b-d.
+\]
+
+However,
+\[
+T'=\{sa,sb,ac,ad\}
+\]
+is a spanning tree of diameter $3$.
+
+No spanning tree can have diameter $2$, because that would have to be a star, and $G$ has no vertex adjacent to all four other vertices. Hence the minimum possible diameter is $3$, so $T'$ is an MDST, while $T$ is not.
+
+\item Let $G=K_4$ on vertices $\{a,b,c,d\}$, with edge weights
+\[
+w(ab)=1,\qquad w(cd)=1,
+\]
+and all other edges having weight $3$.
+
+Consider the spanning tree
+\[
+T=\{ab,ac,cd\}.
+\]
+This is the path
+\[
+b-a-c-d
+\]
+with edge weights $1,3,1$, so its diameter is
+\[
+1+3+1=5.
+\]
+
+Now any spanning tree on four vertices is either a star or a path. In a star, at least two incident edges have weight $3$, so the diameter is at least
+\[
+3+3=6.
+\]
+In a path, the sum of the three edge weights is at least
+\[
+1+1+3=5.
+\]
+Hence the minimum possible diameter is $5$, and $T$ is an MDST.
+
+Now run Dijkstra's algorithm from any vertex. For example, from $a$:
+\[
+d(a,b)=1,\qquad d(a,c)=3,\qquad d(a,d)=3.
+\]
+Each of these distances is realized by the direct edge from $a$, since every alternative route to $c$ or $d$ has weight at least $4$. Thus every shortest-path tree rooted at $a$ must be the star centered at $a$:
+\[
+\{ab,ac,ad\},
+\]
+which has diameter $6$.
+
+The same argument works from each vertex. Therefore Dijkstra's algorithm cannot produce an MDST from any starting vertex.
+\end{enumerate}
+
+\newpage
+
+\section*{Question 9}
+
+Statement: {Determine the minimum size of a maximal matching in the cycle $C_n$.}
+
+\begin{proof}
+~
+\begin{enumerate}
+    \item First, let $M$ be a maximal matching in $C_n$. Since $M$ is maximal, every edge of $C_n$ is either in $M$ or adjacent to an edge of $M$. Thus $M$ is an edge-dominating set.
+
+Each chosen edge in a cycle can dominate at most $3$ edges of the cycle: itself and the two edges adjacent to it. Since the cycle has $n$ edges, we must have
+\[
+3|M|\ge n.
+\]
+Hence
+\[
+|M|\ge \left\lceil \frac{n}{3}\right\rceil.
+\]
+
+\item Now we show this bound is attained: Let the edges of $C_n$ be
+\[
+e_1,e_2,\dots,e_n
+\]
+in cyclic order.
+
+\begin{enumerate}
+\item If $n=3k$, take
+\[
+M=\{e_1,e_4,e_7,\dots,e_{3k-2}\}.
+\]
+Then $|M|=k$.
+
+\item If $n=3k+1$, take
+\[
+M=\{e_1,e_4,e_7,\dots,e_{3k-2},e_{3k}\}.
+\]
+Then $|M|=k+1$.
+
+\item If $n=3k+2$, take
+\[
+M=\{e_1,e_4,e_7,\dots,e_{3k+1}\}.
+\]
+Then $|M|=k+1$.
+\end{enumerate}
+
+In each case the chosen edges are pairwise disjoint, so this is a matching. Also every edge not chosen is adjacent to one of the chosen edges, so no additional edge can be added. Therefore the matching is maximal.
+
+Thus the minimum size of a maximal matching in $C_n$ is
+\[
+\left\lceil \frac{n}{3}\right\rceil.
+\]
+\end{enumerate}
+\end{proof}
+
+\newpage
+
+\section*{Question 10}
+
+Statement: {Prove that $\alpha(G)\ge \dfrac{n(G)}{\Delta(G)+1}$ for any graph $G$.}
+
+\begin{proof}
+Let $S$ be a maximal independent set in $G$. Then every vertex of $G$ either lies in $S$ or is adjacent to a vertex of $S$; otherwise we could add that vertex to $S$, contradicting maximality.
+
+Therefore
+\[
+V(G)\subseteq \bigcup_{v\in S} N[v],
+\]
+where $N[v]$ is the closed neighborhood of $v$.
+
+For each $v\in S$,
+\[
+|N[v]|\le \Delta(G)+1.
+\]
+Hence
+\[
+n(G)=|V(G)|
+\le \sum_{v\in S}|N[v]|
+\le |S|(\Delta(G)+1).
+\]
+So
+\[
+|S|\ge \frac{n(G)}{\Delta(G)+1}.
+\]
+
+Since $S$ is an independent set and $\alpha(G)$ is the maximum size of an independent set,
+\[
+\alpha(G)\ge |S|\ge \frac{n(G)}{\Delta(G)+1}.
+\]
+\end{proof}
+\end{document}

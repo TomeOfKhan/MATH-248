@@ -1,0 +1,514 @@
+
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+
+\title{\vspace{-2cm} Zian Kang}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Question 1}
+
+
+Statement: From the definition of isomorphism, prove that $G\cong H \iff \overline{G}\cong \overline{H}$.
+
+\medskip
+
+\begin{proof}
+Let $G=(V(G),E(G))$ and $H=(V(H),E(H))$ be simple graphs. Given that $V(\overline{G})=V(G)$ and, for distinct
+$u,v\in V(G)$,
+\[
+\{u,v\}\in E(\overline{G}) \iff \{u,v\}\notin E(G),
+\]
+and similarly for $\overline{H}$.
+
+\smallskip
+\noindent ($\Rightarrow$) Assume $G\cong H$. Then there exists an isomorphism
+$f:V(G)\to V(H)$, i.e. a bijection such that for all distinct $u,v\in V(G)$,
+\[
+\{u,v\}\in E(G)\iff \{f(u),f(v)\}\in E(H).
+\]
+which is equivalent to 
+\[
+\{u,v\}\notin E(G)\iff \{f(u),f(v)\}\notin E(H).
+\]
+It is sufficient to show that the same $f$ is an isomorphism $\overline{G}\to \overline{H}$.
+For distinct $u,v\in V(G)$,
+\begin{align*}
+\{u,v\}\in E(\overline{G})
+&\iff \{u,v\}\notin E(G)\\
+&\iff \{f(u),f(v)\}\notin E(H)\\
+&\iff \{f(u),f(v)\}\in E(\overline{H}).
+\end{align*}
+Thus $f$ preserves adjacency in complements, so $\overline{G}\cong \overline{H}$.
+
+\smallskip
+\noindent ($\Leftarrow$) Assume $\overline{G}\cong \overline{H}$. Then there exists
+an isomorphism $f:V(G)\to V(H)$ such that for all distinct $u,v\in V(G)$,
+\[
+\{u,v\}\in E(\overline{G})\iff \{f(u),f(v)\}\in E(\overline{H}),
+\]
+which is equivalent to 
+\[
+\{u,v\}\notin E(\overline{G})\iff \{f(u),f(v)\}\notin E(\overline{H}).
+\]
+For distinct $u,v\in V(G)$,
+\begin{align*}
+\{u,v\}\in E(G)
+&\iff \{u,v\}\notin E(\overline{G})\\
+&\iff \{f(u),f(v)\}\notin E(\overline{H})\\
+&\iff \{f(u),f(v)\}\in E(H).
+\end{align*}
+So $f$ is an isomorphism $G\to H$, and thus $G\cong H$.
+
+\smallskip
+By both directions: $G\cong H \iff \overline{G}\cong \overline{H}$.
+\end{proof}
+
+\newpage
+
+\section*{Question 2}
+
+Statement: Determine the maximum size of a clique and the maximum size of an independent set.
+
+\medskip
+
+\noindent Label the vertices as: $t$ (top), $b$ (bottom), and on the horizontal line from left to right
+\[
+v_1,\ v_2,\ v_3,\ v_4.
+\]
+From the diagrams:
+\[
+v_1v_2,\ v_2v_3,\ v_3v_4 \in E(G),
+\]
+\[
+t \text{ is adjacent to } v_1,v_2,v_3,v_4,\qquad
+b \text{ is adjacent to } v_1,v_2,v_3,v_4,
+\]
+and also
+\[
+tb \in E(G).
+\]
+
+\medskip
+\noindent\textbf{Maximum clique size $\omega(G)$.}
+
+$tb\in E(G)$ and $v_2v_3\in E(G)$ implies that the set
+\[
+\{t,b,v_2,v_3\}
+\]
+is a clique, so $\omega(G)\ge 4$.
+
+No $5$-clique: among the four vertices $v_1,v_2,v_3,v_4$ the induced subgraph
+is a path, so it contains no triangle; one can only choose at most two of the $v_i$
+to be pairwise adjacent. Any clique can include at most $t$ and $b$ plus at most two of the $v_i$,
+so its size is at most $2+2=4$. Therefore $\omega(G)=4$.
+
+\medskip
+\noindent\textbf{Maximum independent set size $\alpha(G)$.}
+
+Since $t$ is adjacent to all other vertices (including $b$ and every $v_i$), any independent set
+containing $t$ has size $1$. The same holds for $b$.
+
+So any maximum independent set must be in $\{v_1,v_2,v_3,v_4\}$, which is a path on
+four vertices. The largest independent set in a path $v_1-v_2-v_3-v_4$ has size $2$
+, and no independent set of size $3$ exists in a path.
+Hence $\alpha(G)=2$.
+
+\newpage
+
+\section*{Question 3}
+
+Statement: Consider the following four families of graphs: $\text{A}=\{\text{paths}\},\text{B}=\{\text{cycles}\},\text{C}=\{\text{complete graphs}\},\text{D}=\{\text{bipartite graphs}\}$. For each pair of families, for each pair of families, determine all isomorphism classes of graphs that belong to both families.
+
+\medskip
+
+Let \quad
+A=\{\text{paths}\},\;
+B=\{\text{cycles}\},\;
+C=\{\text{complete graphs}\},\;
+D=\{\text{bipartite graphs}\}.
+\newline
+Write $P_n$ for the path on $n$ vertices ($n\ge1$), $C_n$ for the cycle on $n$ vertices ($n\ge3$),
+and $K_n$ for the complete graph on $n$ vertices.
+
+\begin{enumerate}
+\item \textbf{$A\cap B$ (paths $\cap$ cycles):} \\
+A path has no cycles, while a cycle graph contains a cycle. Hence
+\[
+A\cap B=\varnothing.
+\]
+
+\item \textbf{$A\cap C$ (paths $\cap$ complete graphs):} \\
+$K_1$ is a single vertex, which is $P_1$. Also $K_2$ is a single edge, which is $P_2$.
+For $n\ge3$, $K_n$ has all degrees $n-1\ge2$, but $P_n$ has vertices of degree $1$.
+Thus
+\[
+A\cap C=\{K_1,K_2\}=\{P_1,P_2\}.
+\]
+
+\item \textbf{$A\cap D$ (paths $\cap$ bipartite graphs):} \\
+Every path can be bipartite (2-color alternately along the path).
+Therefore
+\[
+A\cap D=\{P_n:\; n\ge 1\}.
+\]
+
+\item \textbf{$B\cap C$ (cycles $\cap$ complete graphs):} \\
+$C_3$ is a triangle, which is exactly $K_3$. For $n\ge4$, $C_n$ is not complete.
+Hence
+\[
+B\cap C=\{C_3\}=\{K_3\}.
+\]
+
+\item \textbf{$B\cap D$ (cycles $\cap$ bipartite graphs):} \\
+A cycle is bipartite iff it has even length. Hence the intersection consists of the even cycles:
+\[
+B\cap D=\{C_{2k}:\; k\ge2\}=\{C_4,C_6,C_8,\dots\}.
+\]
+
+\item \textbf{$C\cap D$ (complete graphs $\cap$ bipartite graphs):} \\
+$K_1$ and $K_2$ are bipartite. For $n\ge3$, $K_n$ contains a triangle $K_3$ (an odd cycle),
+so it is not bipartite. Thus
+\[
+C\cap D=\{K_1,K_2\}.
+\]
+\end{enumerate}
+
+\newpage
+
+\section*{Question 4}
+
+Statement: Determine which pairs of graphs are isomorphic.
+
+\medskip
+
+Let $G_1,G_2,G_3$\text{ be the three graphs from left to right.}
+
+\medskip
+\begin{enumerate}
+    \item $G_2$ and $G_3$ are not bipartite.
+    
+The outer boundary of $G_2$ is a $5$-cycle (a pentagon). Hence $G_2$ contains an
+odd cycle, so $G_2$ is not bipartite.
+
+Likewise, in $G_3$ one can trace a $5$-cycle around the inner ``hole'' (the five inner
+vertices form a pentagon). Hence $G_3$ contains an odd cycle, so $G_3$ is not bipartite.
+
+\item $G_1$ is bipartite.
+
+2-color the vertices on the outer 10-cycle alternately (say black/white).
+Color each inner vertex with the \emph{opposite} color of the outer vertex it is joined to by a spoke.
+In $G_1$ the inner edges join vertices whose indices differ by an odd number around the inner ring,
+so every inner edge also goes between opposite colors. Hence $G_1$ is bipartite, so it has \emph{no}
+odd cycle.
+
+\medskip
+\item $G_2\cong G_3$
+
+Define graph $H$:
+\begin{itemize}
+\item $V(H)=\{u_0,\dots,u_9\}\cup\{v_0,\dots,v_9\}$ (indices mod $10$).
+\item Edges of $H$ are
+\[
+u_i u_{i\pm 1},\qquad u_i v_i,\qquad v_i v_{i\pm 2}\qquad (i\in\mathbb{Z}_{10}).
+\]
+\end{itemize}
+
+\begin{enumerate}
+    \item Claim: $G_3\cong H$.
+    
+In $G_3$ the outer boundary is a $10$-cycle; label its vertices $u_0,\dots,u_9$ in cyclic order.
+Each $u_i$ has exactly one remaining neighbor not on the outer cycle; label it $v_i$.
+The remaining inner edges connect each $v_i$ to the two vertices two steps away around the inner ring,
+so the inner edges are exactly $v_i v_{i\pm 2}$. Hence the adjacency relations in $G_3$ match those in $H$,
+so $G_3\cong H$.
+\item Claim: $G_2\cong H$.
+
+In $G_2$ trace the $10$-cycle obtained by following the outer pentagon vertices together with the
+next-layer vertices between them; label this cycle $u_0,u_1,\dots,u_9$ in order. Each $u_i$ has exactly
+one remaining neighbor deeper inside; label it $v_i$. The inner edges then connect each $v_i$ to the
+two vertices two steps away around the inner structure, giving edges $v_i v_{i\pm 2}$. Thus $G_2$ has
+exactly the same adjacency pattern as $H$, so $G_2\cong H$.
+\item Since $G_2\cong H$ and $G_3\cong H$, we have $G_2\cong G_3$.
+\end{enumerate}
+
+\item Conclusion: the only isomorphic pair is $(G_2,G_3)$ and $G_1$ is bipartite while the other two is not.
+
+\end{enumerate}
+\newpage
+
+\section*{Question 5}
+
+Statement: Prove that every set of six people contains (at least) three mutual acquaintances or three mutual strangers.
+
+\medskip
+
+\begin{proof}
+Model the situation by a complete graph on six vertices, $K_6$, where each vertex is a person.
+Color an edge \emph{red} if the two people are acquainted, and \emph{blue} if they are strangers.
+We must show there is a monochromatic triangle.
+
+Fix an arbitrary vertex $v$. It is joined to the other $5$ vertices by $5$ edges. By the pigeonhole
+principle, at least $3$ of these edges have the same color. WLOG: assume
+$v$ is joined by red edges to three distinct vertices $a,b,c$ (the blue case is identical).
+
+Now consider the three edges among $\{a,b,c\}$:
+\[
+ab,\quad bc,\quad ca.
+\]
+\begin{itemize}
+\item If at least one of these edges is red, say $ab$ is red, then $v,a,b$ form a red triangle.
+So $v,a,b$ are three mutual acquaintances.
+\item If none of $ab,bc,ca$ is red, then all three are blue. Hence $a,b,c$ form a blue triangle,
+so $a,b,c$ are three mutual strangers.
+\end{itemize}
+
+Combining both cases, among the six people there exist at least three mutual acquaintances or three mutual
+strangers. This proves the claim.
+\end{proof}
+
+\newpage
+
+\section*{Question 6}
+
+Statement: Let $G$ be a simple with adjancency matrix $A$ and incidence matrix $M$. Prove that the degree of $v_i$ is the $i$th diagenal entry in $A^2$ and $MM^T$. What do the entry in position $(i,j)$ of $A^2$ and $MM^T$ say about $G$?
+
+\medskip
+
+Let $G$ be a simple graph with vertices $v_1,\dots,v_n$.
+Let $A=(a_{ij})$ be the adjacency matrix, so
+\[
+a_{ij}=\begin{cases}
+1,& \text{if } v_i\sim v_j,\\
+0,& \text{otherwise},
+\end{cases}
+\qquad\text{and }a_{ii}=0.
+\]
+Let $M$ be the (0,1)-incidence matrix of $G$, with columns indexed by edges $e$ and
+\[
+m_{i e}=\begin{cases}
+1,& \text{if } v_i \text{ is incident with } e,\\
+0,& \text{otherwise}.
+\end{cases}
+\]
+
+\begin{proof}
+\begin{enumerate}
+    \item The diagonal of $A^2$.
+    
+We have
+\[
+(A^2)_{ii}=\sum_{j=1}^n a_{ij}a_{ji}.
+\]
+Since $G$ is simple and undirected, $A$ is symmetric, so $a_{ij}=a_{ji}$ and
+$a_{ij}a_{ji}=a_{ij}^2=a_{ij}$. Therefore
+\[
+(A^2)_{ii}=\sum_{j=1}^n a_{ij}=\deg(v_i).
+\]
+
+\item The diagonal of $MM^T$.
+We compute
+\[
+(MM^T)_{ii}=\sum_{e} m_{i e}m_{i e}=\sum_{e} m_{i e}.
+\]
+But $m_{ie}=1$ exactly for those edges incident to $v_i$, so the sum is the number of
+edges incident to $v_i$, i.e.
+\[
+(MM^T)_{ii}=\deg(v_i).
+\]
+
+\item off-diagonal entries:
+
+For $A^2$: for $i\neq j$,
+\[
+(A^2)_{ij}=\sum_{k=1}^n a_{ik}a_{kj}.
+\]
+Each term $a_{ik}a_{kj}$ equals $1$ exactly when $v_k$ is adjacent to both $v_i$ and $v_j$.
+Hence
+\[
+(A^2)_{ij}=\#\{\,v_k:\ v_k\sim v_i \text{ and } v_k\sim v_j\,\},
+\]
+the number of common neighbors of $v_i$ and $v_j$.
+
+For $MM^T$: for $i\neq j$,
+\[
+(MM^T)_{ij}=\sum_e m_{ie}m_{je}.
+\]
+A term is $1$ exactly when an edge $e$ is incident to both $v_i$ and $v_j$, i.e.\ when
+$e=\{v_i,v_j\}$. Because $G$ is simple, there is at most one such edge, so
+\[
+(MM^T)_{ij}=
+\begin{cases}
+1,& \text{if } v_i\sim v_j,\\
+0,& \text{otherwise}.
+\end{cases}
+\]
+\end{enumerate}
+\end{proof}
+
+\newpage
+
+\section*{Question 7}
+
+Statement: (a) Prove or disprove: If every vertex of a simple, connected graph $G$ has degree 2, then $G$ is a cycle. (b) What if we remove the word “connected” in part (a)?
+
+~
+
+\begin{enumerate}
+    \item Claim: True (for finite graphs). If $G$ is simple, connected, and every vertex has degree $2$,
+then $G$ is a cycle.
+
+\begin{proof}
+Assume $G$ is a finite simple connected graph in which $\deg(v)=2$ for every vertex $v$.
+
+\begin{enumerate}
+    \item $G$ contains a cycle.
+
+Take a longest path $P=v_0v_1\cdots v_k$ in $G$. Since $\deg(v_0)=2$, the endpoint $v_0$
+has a neighbor $u\neq v_1$. By maximality of $P$, the vertex $u$ must already lie on $P$,
+say $u=v_i$ for some $i\ge 2$. Then $v_0v_1\cdots v_i v_0$ is a cycle in $G$.
+
+\item The cycle contains all vertices.
+
+Let $C$ be a cycle in $G$. Suppose for reductio that $V(G)\neq V(C)$, and pick a vertex
+$w_0\in V(G)\setminus V(C)$. Since $G$ is connected, there exists a path from $w_0$ to a vertex on $C$.
+Among all such paths, choose one of minimum length and write it as
+\[
+x=w_0,w_1,\dots,w_{m-1},w_m
+\]
+where $w_m\in V(C)$ and $w_0,\dots,w_{m-1}\notin V(C)$. Then $w_{m-1}\notin V(C)$ is adjacent to
+$w_m\in V(C)$.
+
+On the cycle $C$, the vertex $w_m$ has exactly two neighbors (its two cyclic neighbors), both of which
+lie in $V(C)$. In addition, $w_m$ is adjacent to $w_{m-1}\notin V(C)$. Hence $w_m$ has at least three
+distinct neighbors, so
+\[
+\deg(w_m)\ge 3,
+\]
+contradicting the assumption that every vertex has degree $2$.
+
+\item Thus no such $x$ exists, and $V(G)=V(C)$. Since each vertex already has exactly two neighbors on
+the cycle and $\deg(v)=2$ for all $v$, there can be no extra edges. Hence $G$ is exactly the cycle $C$,
+so $G\cong C_n$ for $n=|V(G)|\ge 3$.
+\end{enumerate}
+\end{proof}
+
+\item If we remove ``connected'', the statement is false.
+
+\smallskip
+\noindent Counterexample: $G=C_3\sqcup C_3$ (two disjoint triangles). Every vertex has degree $2$,
+but $G$ is not a single cycle.
+\end{enumerate}
+
+\newpage
+
+\section*{Question 8}
+
+Statement:  A graph with no cycle has infinite girth. Let G be a graph with girth 4 in which every vertex has degree k. (a) Explain why G must be a simple graph. Hint: loops are cycles of length 1.(b) Prove that G has at least 2k vertices. (c) Prove that if G has exactly 2k vertices, then it is isomorphic to the complete bipartite graph $K_{k,k}$, k $\geq$ 2.
+
+~
+
+\begin{enumerate}
+    \item $G$ must be simple.
+
+
+\begin{proof}
+Since $G$ has girth $4$, its shortest cycle has length $4$. Hence $G$ has \emph{no} cycle of
+length $1,2,$ or $3$.
+
+\begin{itemize}
+\item A loop at a vertex is a cycle of length $1$, so $G$ has no loops.
+\item If $G$ had two parallel edges joining the same pair of vertices, those two edges would
+form a cycle of length $2$, so $G$ has no multiple edges.
+\end{itemize}
+
+Therefore $G$ has no loops and no multiple edges, i.e.\ $G$ is a simple graph.
+\end{proof}
+
+\item $|V(G)|\ge 2k$.
+
+\begin{proof}
+Fix a vertex $v\in V(G)$ and let
+\[
+S := N(v)=\{u\in V(G): u\sim v\},\qquad T := V(G)\setminus(\{v\}\cup S).
+\]
+Thus $|V(G)|=|S|+|T|+1$. Because $\deg(v)=k$, we have $|S|=k$.
+
+\medskip
+\noindent Claim: $S$ is an independent set.
+If $x,y\in S$ were adjacent, then $vxyv$ would be a $3$-cycle, contradicting that the girth is $4$.
+
+\medskip
+\noindent Edges from $S$ to $T$.
+Take any $u\in S$. Since $\deg(u)=k$, the vertex $u$ has exactly $k$ neighbors.
+Set one of them to be $v$, and by Claim 1 none of the others can lie in $S$.
+Hence the remaining $k-1$ neighbors of $u$ lie in $T$.
+So each $u\in S$ sends exactly $k-1$ edges into $T$.
+
+Therefore the number of edges between $S$ and $T$ (denoted as $e(S,T)$) is
+\[
+e(S,T)=\sum_{u\in S}(k-1)=k(k-1).
+\]
+
+On the other hand, each vertex $t\in T$ has total degree $k$, so it can be incident to \emph{at most}
+$k$ edges coming from $S$. Hence
+\[
+k(k-1) \le \sum_{t\in T} k = k|T|\implies |T|\ge k-1.
+\]
+Thus
+\[
+|V(G)| = 1+|S|+|T| \ge 1+k+(k-1)=2k.
+\]
+\end{proof}
+
+\item If $|V(G)|=2k$, then $G\cong K_{k,k}$ (for $k\ge 2$).
+
+\begin{proof}
+Assume $|V(G)|=2k$. With the notation of part (b), we then have
+\[
+ |T|=k-1.
+\]
+From part (b) we already know $e(S,T)=k(k-1)$ and also $e(S,T)\le k|T|$.
+Since $|T|=k-1$, we have
+\[
+e(S,T)\le k|T| = k(k-1),
+\]
+so equality holds:
+\[
+e(S,T)=k|T|.
+\]
+Equality forces \emph{every} $t\in T$ to be incident to
+exactly $k$ edges from $S$, i.e.
+\[
+\deg_S(t)=k \qquad \text{for all } t\in T.
+\]
+But $|S|=k$, so this means each $t\in T$ is adjacent to \emph{every} vertex of $S$.
+
+Now define a bipartition
+\[
+A := \{v\}\cup T,\qquad B := S.
+\]
+Then $|A|=1+(k-1)=k$ and $|B|=k$.
+
+We check the edges:
+\begin{itemize}
+\item $v$ is adjacent to every vertex in $S=B$ by definition of $S$.
+\item Every $t\in T\subseteq A$ is adjacent to every vertex in $S=B$ by the equality argument above.
+\item There are no edges inside $B$ (proved in part (b), since otherwise there is a triangle).
+\item There are no edges inside $A$: $v$ has no neighbors in $T$ by definition of $T$,
+and if two vertices $t,t'\in T$ were adjacent, then $t$ would have the $k$ neighbors in $S$
+plus the neighbor $t'$, giving $\deg(t)\ge k+1$, contradicting $\deg(t)=k$.
+\end{itemize}
+
+Therefore $G$ is the complete bipartite graph with parts of size $k$:
+\[
+G \cong K_{k,k}.
+\]
+\end{proof}
+\end{enumerate}
+
+\end{document}

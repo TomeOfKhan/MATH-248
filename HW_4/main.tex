@@ -1,0 +1,411 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,enumitem,geometry}
+\geometry{margin=1in}
+
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+
+\title{Zian Kang}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+
+% ============================================================
+\section*{Question 1}
+\noindent Statement: Which of the following are graphic sequences? Provide a construction or a proof of impossibility for each.
+
+\medskip
+
+
+\begin{enumerate}[label=(\alph*), itemsep=10pt, leftmargin=*]
+\item $(5,5,4,3,2,2,2,1)$ is graphic.
+
+HH:
+\[
+(5,5,4,3,2,2,2,1)\to(4,3,2,2,1,1,1)\to(2,1,1,1,1,0)\to(1,1,0,0,0)\to(0,0,0,0).
+\]
+One realization:
+\[
+\{v_1v_2,v_1v_3,v_1v_4,v_1v_5,v_1v_6,\;
+  v_2v_3,v_2v_4,v_2v_7,v_2v_5,\;
+  v_3v_4,v_3v_6,\;
+  v_7v_8\}.
+\]
+
+\item $(5,5,4,4,2,2,1,1)$ is graphic.
+
+HH:
+\[
+(5,5,4,4,2,2,1,1)\to(4,3,3,1,1,1,1)\to(2,2,1,1,0,0)\to(1,1,0,0,0)\to(0,0,0,0).
+\]
+One realization:
+\[
+\{v_1v_2,v_1v_3,v_1v_4,v_1v_5,v_1v_6,\;
+  v_2v_3,v_2v_4,v_2v_7,v_2v_8,\;
+  v_3v_4,v_3v_5,\;
+  v_4v_6\}.
+\]
+
+\item $(5,5,5,3,2,2,1,1)$ is graphic.
+
+HH:
+\[
+(5,5,5,3,2,2,1,1)\to(4,2,1,1,1,1,0)\to(1,1,0,0,0,0)\to(0,0,0,0,0).
+\]
+One realization:
+\[
+\{v_1v_2,v_1v_3,v_1v_4,v_1v_5,v_1v_6,\;
+  v_2v_3,v_2v_4,v_2v_7,v_2v_8,\;
+  v_3v_4,v_3v_5,v_3v_6\}.
+\]
+
+\item $(5,5,5,4,2,1,1,1)$ is not graphic.
+
+HH:
+\[
+(5,5,5,4,2,1,1,1)
+\to (4,4,3,1,1,1,0)
+\to (3,2,1,0,0,0)
+\to (1,0,-1,0,0).
+\]
+In the last step, deleting $3$ from $(3,2,1,0,0,0)$ and subtracting $1$ from the next three terms gives
+$(2,1,0,0,0)\mapsto(1,0,-1,0,0)$, which has a negative entry. Hence the sequence is not graphic.
+\end{enumerate}
+
+\newpage
+% ============================================================
+\section*{Question 2}
+\noindent Statement: Let $d=(d_1,\dots,d_n)$ be nonincreasing. Fix $k$ and form $d'$ by deleting $d_k$
+and subtracting $1$ from the $d_k$ largest remaining entries. Prove that $d$ is graphic iff $d'$ is graphic.
+
+\begin{proof}
+~
+\begin{enumerate}
+    \item Write the entries of $d$ as degrees assigned to labeled vertices $v_1,\dots,v_n$,
+with $\deg(v_i)=d_i$. Let $x=v_k$ and $r=d_k$, fixing a $k$.
+Let $A$ be a set of $r$ vertices among $V\setminus\{x\}$ whose degrees are the $r$ largest among
+$\{d_i:i\neq k\}$.
+
+\item Switching lemma:
+For every $x,y,z,w$ distinct, if $xy$ and $zw$ are edges, and $xz$ and $yw$ are nonedges,
+then replacing $xy,zw$ by $xz,yw$ preserves all degrees and keeps the graph simple.
+
+\item $\Rightarrow$ Assume $d$ is graphic; let $G$ be a simple graph with degree sequence $d$.
+Claim there is a realization $G^*$ of $d$ in which $x$ is adjacent to every vertex in $A$.
+
+If $x$ already hits all of $A$, done. Otherwise pick $z\in A\setminus N_G(x)$.
+Since $z\notin N_G(x)$, there exists some neighbor $y\in N_G(x)\setminus A$.
+By choice of $A$, we have $\deg(z)\ge \deg(y)$.
+
+If $N_G(z)\subseteq N_G(y)$, then $\deg(z)\le \deg(y)$, forcing $\deg(z)=\deg(y)$; but then we may swap
+membership of $y$ and $z$ in $A$, contradicting $z\in A\setminus N_G(x)$ and $y\notin A$.
+So $N_G(z)\not\subseteq N_G(y)$, choose $w\in N_G(z)\setminus N_G(y)$.
+Then $zw$ is an edge, $yw$ is a nonedge, and also $xz$ is a nonedge by construction, while $xy$ is an edge.
+Apply the switching lemma to edges $xy,zw$ to get a new realization where $x$ is adjacent to $z$.
+This increases $|A\cap N(x)|$. Repeating yields a realization $G^*$ where
+$A\subseteq N_{G^*}(x)$.
+
+Now delete $x$ from $G^*$. The degrees of the vertices in $A$ drop by $1$, and all other degrees stay the same.
+This is exactly the sequence $d'$. Thus $d'$ is graphic.
+
+\item $\Leftarrow$ Assume $d'$ is graphic, realized by a simple graph $H$ on $n-1$ vertices.
+Take the $r$ vertices of $H$ corresponding to the $r$ largest entries (before sorting) in $d'$, and add a new vertex
+$x$ adjacent to those $r$ vertices. This increases their degrees by $1$ and gives $\deg(x)=r$,
+producing degree sequence $d$. Hence $d$ is graphic.
+\end{enumerate}
+\end{proof}
+
+\newpage
+% ============================================================
+\section*{Question 3}
+\noindent Statement: Let $d_1\ge\cdots\ge d_n\ge 0$. Prove there exists a loopless graph allowing multiple edges
+(a loopless multigraph) with degree sequence $d_1,\dots,d_n$ iff $\sum_i d_i$ is even and $d_1\le d_2+\cdots+d_n$.
+
+\begin{proof}
+~
+\begin{enumerate}
+    \item $\Rightarrow$ In any (multi)graph, $\sum_i d_i=2|E|$ is even by handshaking.
+Also, each edge incident to the vertex of degree $d_1$ uses $1$ unit of degree from some other vertex.
+Thus the total available degree outside that vertex is $d_2+\cdots+d_n$, so we must have $d_1\le d_2+\cdots+d_n$.
+
+\item $\Leftarrow$ Assume $\sum_i d_i$ is even and $d_1\le d_2+\cdots+d_n$.
+Build a loopless multigraph by repeatedly adding edges between distinct vertices with positive remaining degree.
+
+Maintain a list of remaining degrees. While some degree is positive, pick a vertex $u$ of maximum remaining degree $m$.
+Since $m\le$ (sum of the other remaining degrees), there exists another vertex $v\neq u$ with positive remaining degree.
+Add an edge $uv$ (with possibility to add multiple edges), and decrease the remaining degrees of
+$u$ and $v$ by $1$.
+
+This never creates a loop since endpoints are distinct, never makes degrees negative, and decreases the total remaining sum by $2$,
+so it must terminate. If it were to get stuck with exactly one vertex having positive remaining degree, then we would have
+$M>0$ but sum of others $=0$, contradicting the maintained inequality $M\le$ (sum of others).
+Hence the process ends with all remaining degrees $0$, producing the desired loopless multigraph.
+\end{enumerate}
+\end{proof}
+
+\newpage
+% ============================================================
+\section*{Question 4}
+\noindent Statement: Let $d=(d_1,\dots,d_{2k})$ be defined by $d_{2i-1}=d_{2i}=i$ for $1\le i\le k$. Prove $d$ is graphic.
+
+\begin{proof}
+Construct a simple bipartite graph with bipartition
+\[
+A=\{a_1,\dots,a_k\},\qquad B=\{b_1,\dots,b_k\},
+\]
+and edges
+\[
+a_i b_j \in E \quad\text{iff}\quad j\le i.
+\]
+Then $\deg(a_i)=i$ (neighbors $b_1,\dots,b_i$).
+Also $\deg(b_j)=|\{i: j\le i\le k\}|=k-j+1$.
+
+Thus the multiset of degrees is
+\[
+\{\deg(a_1),\dots,\deg(a_k)\}\cup\{\deg(b_1),\dots,\deg(b_k)\}
+=\{1,2,\dots,k\}\cup\{1,2,\dots,k\},
+\]
+which is exactly $d$ (up to reordering). Hence $d$ is graphic.
+\end{proof}
+
+\newpage
+% ============================================================
+\section*{Question 5}
+\noindent Statement: Prove that a digraph is strongly connected iff for each partition $V=S\cup T$ into nonempty sets,
+there is an edge from $S$ to $T$.
+
+\begin{proof}
+~
+\begin{enumerate}
+    \item $\Rightarrow$ If $D$ is strongly connected, pick any nonempty partition $V=S\cup T$ and choose $s\in S$, $t\in T$.
+There is a directed $s\to t$ path. Along that path, let $uv$ be the first edge with $u\in S$ and $v\in T$.
+Then $uv$ is an edge from $S$ to $T$.
+
+\item $\Leftarrow$ Assume: for every partition $V=S\cup T$ into nonempty sets,
+there exists an edge from $S$ to $T$.
+
+Fix any vertex $s\in V$. Let
+\[
+R=\{v\in V:\text{ there is a directed path from } s \text{ to } v\}
+\]
+be the set of vertices reachable from $s$. Clearly $s\in R$, so $R\neq\emptyset$.
+
+If $R\neq V$, then $T:=V\setminus R$ is nonempty, and there is a partition $V=R\cup T$ into nonempty sets.
+By the assumption, there is an edge $u\to w$ with $u\in R$ and $w\in T$.
+But then $w$ is reachable from $s$, so $w\in R$,
+contradicting $w\in T=V\setminus R$. Hence $R=V$.
+
+Therefore, from this arbitrary $s$, every vertex is reachable. Since $s$ is arbitrary, every vertex reaches every other,
+so $D$ is strongly connected.
+\end{enumerate}
+\end{proof}
+
+\newpage
+% ============================================================
+\section*{Question 6}
+\noindent Statement: For each $n\ge 7$, prove or disprove: every simple digraph on $n$ vertices has two vertices
+with the same out-degree or two vertices with the same in-degree.
+
+\begin{proof}
+\emph{Disprove.} Construct, for every $n\ge 2$ (hence for every $n\ge 7$), a simple digraph in which
+all out-degrees are distinct and all in-degrees are distinct.
+
+Let $V=\{v_1,\dots,v_n\}$. For each pair $i<j$, put exactly one directed edge, namely
+\[
+v_i \to v_j.
+\]
+This is a tournament, hence a simple digraph.
+
+Now compute degrees. For a fixed $i$:
+\begin{itemize}
+\item $v_i$ has an out-edge to each $v_j$ with $j>i$, so $d^+(v_i)=|\{j:i<j\le n\}|=n-i$.
+\item $v_i$ has an in-edge from each $v_j$ with $j<i$, so $d^-(v_i)=|\{j:1\le j<i\}|=i-1$.
+\end{itemize}
+
+Thus
+\[
+\{d^+(v_1),\dots,d^+(v_n)\}=\{n-1,n-2,\dots,0\},
+\qquad
+\{d^-(v_1),\dots,d^-(v_n)\}=\{0,1,\dots,n-1\},
+\]
+so all out-degrees are pairwise distinct and all in-degrees are pairwise distinct. Therefore the claimed statement is false.
+\end{proof}
+
+\newpage
+% ============================================================
+\section*{Question 7}
+\noindent Statement: Let $G$ be an $n$-vertex digraph with no directed cycles. Prove its vertices can be ordered
+$v_1,\dots,v_n$ so that if $v_iv_j\in E(G)$ then $i<j$.
+
+\begin{proof}
+Prove the claim by induction on $n=|V(G)|$.
+
+\medskip
+\noindent Claim: $G$ has a vertex of indegree $0$.
+
+\begin{proof}
+    Suppose not; then every vertex has indegree at least $1$.
+Pick any vertex $x_1$. Since $d^-(x_1)\ge 1$, choose an in-neighbor $x_2$ with $x_2\to x_1$.
+Similarly choose $x_3$ with $x_3\to x_2$, and continue. This produces a sequence
+$x_1,x_2,x_3,\dots$ of vertices in a finite set, so some vertex repeats: $x_i=x_j$ with $i<j$.
+Then
+\[
+x_j \to x_{j-1} \to \cdots \to x_{i+1} \to x_i=x_j
+\]
+is a directed cycle, contradicting that $G$ is acyclic. Therefore some vertex has indegree $0$.
+\end{proof}
+
+\medskip
+\noindent Proof by Induction:
+
+If $n=1$, any ordering works.
+
+Assume $n\ge 2$ and the statement holds for all smaller acyclic digraphs.
+By Claim 1, pick a vertex $v_1$ with indegree $0$. Let $G' = G - v_1$ be the digraph geted by deleting $v_1$
+and all incident edges. Then $G'$ is still acyclic.
+
+By the induction hypothesis, $G'$ has an ordering $v_2,\dots,v_n$ such that every edge in $G'$
+goes from earlier to later in this list. Then place $v_1$ to get the order $v_1,v_2,\dots,v_n$.
+
+Now check edges in $G$:
+\begin{itemize}
+\item Any edge not incident to $v_1$ lies in $G'$, so it goes forward.
+\item There is no edge into $v_1$ (since $d^-(v_1)=0$), so we never have an edge going from a later vertex to $v_1$.
+\item Any edge out of $v_1$ goes from $v_1$ to some $v_j$ with $j\ge 2$, hence also goes forward.
+\end{itemize}
+Therefore, in the order $v_1,\dots,v_n$, every directed edge goes from a smaller index to a larger index.
+\end{proof}
+
+\newpage
+% ============================================================
+\section*{Question 8}
+\noindent Statement: Use Lemma 1.4.23 and induction on the number of edges to prove the characterization of Eulerian digraphs (Theorem 1.4.24).
+\begin{proof}
+~
+\begin{enumerate}
+    \item $\Rightarrow$ Suppose $D$ has an Eulerian directed circuit $W$.
+Each passage of $W$ through a vertex uses one incoming edge and one outgoing edge. Since $W$ is closed,
+the first edge used at a vertex is paired with the last edge used there as well, so the total number of times
+$W$ enters $v$ equals the total number of times it leaves $v$. Hence $d^+(v)=d^-(v)$ for every $v$.
+
+Also, two edges can lie in the same directed trail only when they lie in the same weak component of the digraph. Since $W$ contains every edge, all edges lie in one
+weak component. Thus $D$ has at most one nontrivial weak component.
+
+\item $\Leftarrow$ Construct by induction on the number of edges $m=|E(D)|$.
+
+\begin{enumerate}
+    \item Basis step: $m=0$.
+A closed directed trail consisting of a single vertex is an Eulerian circuit.
+
+\item Induction step: $m>0$.
+Let $D$ have $m$ edges. Let $H$ be the nontrivial weak component of $D$.
+For every vertex $v$ of $H$, we have $d^+(v)+d^-(v)\ge 1$, and this implies $d^+(v)\ge 1$. Hence $\delta^+(H)\ge 1$.
+
+By Lemma 1.4.23, $H$ contains a directed cycle $C$.
+Let $D' = D - E(C)$ be the digraph geted by deleting the edges of $C$.
+
+Since $C$ uses either $0$ or $1$ incoming edge and the same number of outgoing edges at each vertex,
+deleting $E(C)$ decreases $d^+$ and $d^-$ equally at every vertex. Therefore every vertex of $D'$ still satisfies
+$d^+(v)=d^-(v)$.
+
+Now each weak component of $D'$ is balanced and has fewer than $m$ edges, so use the induction hypothesis
+to conclude that each nontrivial weak component of $D'$ has an Eulerian directed circuit.
+
+To combine these into an Eulerian circuit of $D$, traverse the directed cycle $C$. When a nontrivial component of
+$D'$ is entered for the first time, let it go along an Eulerian circuit of that
+component and return to the same vertex as the beginning. Continuing this process for every nontrivial component of
+$D'$, we get a closed directed trail that uses every edge of $C$ exactly once
+and every edge of $D'$ exactly once. Hence we have constructed an Eulerian directed circuit of $D$.
+\end{enumerate}
+\end{enumerate}
+\end{proof}
+
+\newpage
+% ============================================================
+\section*{Question 9}
+\noindent Statement: By Proposition 1.4.30, every tournament has a king. Let $T$ be a tournament having no vertex with indegree $0$.
+\begin{enumerate}[label=(\alph*)]
+\item Prove that if $x$ is a king in $T$, then $T$ has another king in $N^-(x)$.
+\item Use part (a) to prove that $T$ has at least three kings.
+\item For each $n\ge 3$, construct a tournament $T$ with $\delta^-(T)>0$ and only $3$ kings.
+\end{enumerate}
+
+\medskip
+\begin{proof}
+~
+\begin{enumerate}[label=\alph*]
+    \item Since $\delta^-(T)>0$, $N^-(x)\neq\emptyset$. Consider the subtournament $T[N^-(x)]$.
+By the fact that every tournament has a king, $T[N^-(x)]$ has a king $z$.
+
+Let $v\in V(T)$ be arbitrary.
+If $v\in N^-(x)$, then $z$ reaches $v$ in $\le 2$ steps inside $T[N^-(x)]$.
+If $v=x$, then $z\to x$ since $z\in N^-(x)$.
+If $v\in N^+(x)$, then $z\to x\to v$.
+Thus $z$ reaches every $v$ within $2$ steps, so $z$ is a king in $T$ and lies in $N^-(x)$.
+Also $z\neq x$, giving another king.
+\item Pick any king $x$. By (a) there is a king $y\in N^-(x)$, hence $y\neq x$.
+Apply (a) to $y$ to get a king $z\in N^-(y)$. Then $z\neq y$.
+Also $z\neq x$ because $y\in N^-(x)$ means $y\to x$, hence $x\notin N^-(y)$.
+So $x,y,z$ are three distinct kings.
+
+\item Construction for each $n\ge 3$.
+Let vertices be $\{a,b,c\}\cup\{u_1,\dots,u_{n-3}\}$.
+Orient $a\to b$, $b\to c$, $c\to a$, and for each $i$ orient
+\[
+a\to u_i,\quad b\to u_i,\quad c\to u_i.
+\]
+Orient edges among the $u_i$ arbitrarily.
+
+Then $\delta^-(T)>0$ because $a,b,c$ each have indegree $1$ from the $3$-cycle and each $u_i$ has indegree $\ge 3$.
+Vertices $a,b,c$ are kings: each reaches every $u_i$ in one step, and reaches the third vertex among $a,b,c$ in two steps.
+No $u_i$ is a king since $u_i$ has no directed path to $a$ because all edges between
+$\{a,b,c\}$ and $\{u_i\}$ point from $\{a,b,c\}$ to $\{u_i\}$.
+Hence exactly three kings.
+\end{enumerate}
+\end{proof}
+
+\newpage
+% ============================================================
+\section*{Question 10}
+\noindent Statement: Consider the following algorithm whose input is a tournament $T$.
+\begin{enumerate}[label=(\arabic*)]
+\item Select a vertex $x$ in $T$.
+\item If $x$ has indegree $0$, call $x$ a king of $T$ and stop.
+\item Otherwise, delete $\{x\}\cup N^+(x)$ from $T$ to form $T'$.
+\item Run the algorithm on $T'$; call the output a king in $T$ and stop.
+\end{enumerate}
+Prove that this algorithm terminates and produces a king in $T$.
+
+\medskip
+\begin{proof}
+~
+\begin{enumerate}
+    \item Termination
+    
+    Each recursive call deletes at least the chosen vertex $x$,
+so the number of vertices strictly decreases. Eventually one vertex remains; it has indegree $0$,
+so the algorithm stops.
+
+\item Correctness
+
+Prove by induction on $n=|V(T)|$ that the algorithm outputs a king.
+
+Base case $n=1$ is trivial. For $n>1$, pick $x$.
+If $d^-(x)=0$, then $x$ beats every other vertex, so reaches everyone in one step; it is a king.
+
+Otherwise $N^-(x)\neq\emptyset$. The remaining vertex set after deleting $\{x\}\cup N^+(x)$ is exactly $N^-(x)$,
+so the recursive call runs on the subtournament $T'=T[N^-(x)]$.
+By induction the output $y$ is a king of $T'$.
+
+Let $v\in V(T)$.
+If $v\in N^-(x)$, then $v\in V(T')$ and $y$ reaches $v$ in $\le 2$ steps in $T'$.
+If $v=x$, then $y\to x$ since $y\in N^-(x)$.
+If $v\in N^+(x)$, then $y\to x\to v$.
+Thus every $v$ is within directed distance $\le 2$ from $y$, so $y$ is a king of $T$.
+\end{enumerate}
+\end{proof}
+
+\end{document}

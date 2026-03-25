@@ -1,0 +1,329 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{titlesec}
+
+% Make section titles non-bold
+\titleformat{\section}{\normalfont\Large}{}{0pt}{}
+
+\newcommand{\diam}{\operatorname{diam}}
+\newcommand{\rad}{\operatorname{rad}}
+\newcommand{\ecc}{\operatorname{ecc}}
+\newcommand{\dist}{\operatorname{dist}}
+
+\begin{document}
+
+\begin{center}
+{\Large MTH 248 --- Homework 5}
+\end{center}
+
+\section*{Question 1}
+Statement: Compute the diameter and the radius of the biclique $K_{m,n}$.
+
+\begin{enumerate}
+\item In $K_{m,n}$, vertices in opposite parts are adjacent, so their distance is $1$.
+\item If two vertices lie in the same part, then any shortest path must go through the other part, so their distance is $2$.
+\item Consider cases:
+\begin{enumerate}
+\item If $m=n=1$, then $K_{1,1}$ is a single edge, so $\diam=1$ and $\rad=1$.
+\item If $\min\{m,n\}=1$ and $\max\{m,n\}\ge 2$, then $K_{m,n}$ is a star. The center has eccentricity $1$ and each leaf has eccentricity $2$, hence $\rad=1$ and $\diam=2$.
+\item If $m,n\ge 2$, then every vertex has eccentricity $2$, hence $\rad=2$ and $\diam=2$.
+\end{enumerate}
+\end{enumerate}
+
+\newpage
+
+\section*{Question 2}
+Statement: Let $G$ have $n$ vertices and $m$ edges. Prove that if $m\ge n$, then $G$ has at least $m-n+1$ cycles.
+
+\begin{proof}
+~
+\begin{enumerate}
+\item Let $c$ be the number of components of $G$. Choose a spanning forest $F$ of $G$.
+\item Since $F$ has one spanning tree per component, $|E(F)|=n-c$.
+\item The number of edges of $G$ not in $F$ is
+\[
+m-(n-c)=m-n+c.
+\]
+\item For each edge $e\in E(G)\setminus E(F)$, the graph $F+e$ contains exactly one cycle, because adding one edge to a forest creates a unique cycle.
+\item These cycles are all distinct, since the unique cycle created by $e$ contains the edge $e$.
+\item Therefore $G$ has at least $m-n+c$ cycles. Since $c\ge 1$, $G$ has at least $m-n+1$ cycles.
+\end{enumerate}
+\end{proof}
+
+\newpage
+
+\section*{Question 3}
+Statement: For $2\le k\le n-1$, prove that the $n$-vertex graph formed by adding one vertex adjacent to every vertex of $P_{n-1}$ has a spanning tree with diameter $k$.
+
+\begin{proof}
+~
+\begin{enumerate}
+\item Label the path vertices $v_1,v_2,\dots,v_{n-1}$ in order, and let $u$ be the added vertex adjacent to every $v_i$.
+\item Fix $k$ with $2\le k\le n-1$. Define a spanning subgraph $T_k$ by
+\[
+E(T_k)=\{v_iv_{i+1}:1\le i\le k-2\}\ \cup\ \{uv_{k-1}\}\ \cup\ \{uv_i:k\le i\le n-1\}.
+\]
+\item $T_k$ is connected:
+\begin{enumerate}
+\item Each $v_i$ for $i\ge k$ is adjacent to $u$.
+\item The vertices $v_1,\dots,v_{k-1}$ are connected along the path edges to $v_{k-1}$, and $v_{k-1}$ is adjacent to $u$.
+\end{enumerate}
+\item Edges:
+\[
+|E(T_k)|=(k-2)+1+(n-k)=n-1.
+\]
+A connected graph on $n$ vertices with $n-1$ edges is a tree, so $T_k$ is a spanning tree.
+\item Compute distances:
+\begin{enumerate}
+\item $\dist_{T_k}(v_1,u)=(k-2)+1=k-1$.
+\item For any $i\ge k$, $\dist_{T_k}(u,v_i)=1$, hence
+\[
+\dist_{T_k}(v_1,v_i)=\dist(v_1,u)+\dist(u,v_i)=(k-1)+1=k.
+\]
+So $\diam(T_k)\ge k$.
+\end{enumerate}
+\item No pair of vertices in $T_k$ can be farther than $k$:
+\begin{enumerate}
+\item Any vertex is within distance $\le k-1$ of $u$.
+\item Thus for any $x,y$, $\dist(x,y)\le \dist(x,u)+\dist(u,y)\le (k-1)+1=k$.
+\end{enumerate}
+\item Therefore $\diam(T_k)=k$.
+\end{enumerate}
+\end{proof}
+
+\newpage
+
+\section*{Question 4}
+Statement: Prove that every tree with maximum degree $\Delta>1$ has at least $\Delta$ vertices of degree $1$. Construct, for each $n>\Delta\ge 2$, an $n$-vertex tree with exactly $\Delta$ leaves.
+
+\begin{proof}
+~
+\begin{enumerate}
+\item Let $T$ be a tree on $n$ vertices, let $L$ be the number of leaves, and let $S$ be the set of non-leaves.
+\item Use the degree-sum formula:
+\[
+\sum_{v\in V(T)}\deg(v)=2|E(T)|=2(n-1).
+\]
+Split the sum over leaves and non-leaves:
+\[
+2(n-1)=\sum_{v\ \text{leaf}}1+\sum_{v\in S}\deg(v)=L+\sum_{v\in S}\deg(v).
+\]
+\item Since $n=L+|S|$, rewrite:
+\[
+2(L+|S|-1)=L+\sum_{v\in S}\deg(v)
+\quad\Longrightarrow\quad
+L=2+\sum_{v\in S}(\deg(v)-2).
+\]
+\item Let $\Delta=\max_{v}\deg(v)>1$. Then there exists $w\in S$ with $\deg(w)=\Delta$, and each term $(\deg(v)-2)\ge 0$.
+Hence
+\[
+L \ge 2+(\Delta-2)=\Delta.
+\]
+\item Construction:
+\begin{enumerate}
+\item Start with the star $K_{1,\Delta}$, which has $\Delta$ leaves and maximum degree $\Delta$.
+\item If $n=\Delta+1$, stop.
+\item If $n>\Delta+1$, subdivide one chosen edge by inserting $n-(\Delta+1)$ new vertices along that edge.
+\item Subdivision does not change the set of leaves and does not increase the maximum degree.
+\end{enumerate}
+\end{enumerate}
+\end{proof}
+
+\newpage
+
+\section*{Question 5}
+Statement: Let $T$ be a tree of even order. Prove that $T$ has exactly one spanning subgraph in which every vertex has odd degree.
+
+\begin{proof}
+~
+\begin{enumerate}
+\item Let $V(T)=\{v_1,\dots,v_n\}$ with $n$ even and $E(T)=\{e_1,\dots,e_{n-1}\}$.
+\item Any spanning subgraph $H$ is determined by a choice of edges, denote this by a vector
+$x\in\{0,1\}^{n-1}$ where $x_j=1$ iff $e_j\in E(H)$.
+\item Over $\mathbb{F}_2$: let $B$ be the $n\times(n-1)$ vertex-edge incidence matrix modulo $2$:
+$B_{i,j}=1$ iff $v_i$ is incident to $e_j$.
+\item The parity of the degree of $v_i$ in $H$ equals the $i$th coordinate of $Bx$.
+Thus “all degrees odd” is the linear system
+\[
+Bx=\mathbf{1}
+\quad\text{in }\mathbb{F}_2^n,
+\]
+where $\mathbf{1}$ is the all-ones vector.
+\item Existence:
+\begin{enumerate}
+\item Summing all rows of $B$ in $\mathbb{F}_2$ gives the zero row, since each column has two $1$'s.
+\item Therefore a necessary consistency condition for $Bx=\mathbf{1}$ is that the same dependence holds on the right side:
+$\sum_i 1 = n \equiv 0 \pmod 2$.
+\item Since $n$ is even, this holds, so the system is consistent.
+\end{enumerate}
+\item Uniqueness:
+\begin{enumerate}
+\item For a tree, $\operatorname{rank}_{\mathbb{F}_2}(B)=n-1$.
+\item Choose a root $r$, delete the row of $B$ corresponding to $r$, and orient edges away from $r$.
+Order columns by the vertex: the resulting $(n-1)\times(n-1)$ matrix is triangular with diagonal entries $1$, hence invertible.
+\item Therefore $\ker(B)=\{0\}$, so if $Bx=\mathbf{1}$ has a solution, it is unique.
+\end{enumerate}
+\item Hence there exists exactly one spanning subgraph with all vertex degrees odd.
+\end{enumerate}
+\end{proof}
+
+\newpage
+
+\section*{Question 6}
+Statement: Prove that $2k+1$ is the maximum possible girth among all graphs with diameter $k$ that are not trees.
+
+\begin{proof}
+~
+\begin{enumerate}
+\item The cycle $C_{2k+1}$ has girth $2k+1$, diameter $\left\lfloor\frac{2k+1}{2}\right\rfloor=k$, and is not a tree. Hence the maximum girth is at least $2k+1$.
+\item Let $G$ be any graph with $\diam(G)=k$ that is not a tree. Then $G$ contains a cycle.
+\item If $G$ has a cycle of length $\ell\ge 2k+2$, choose two vertices $x,y$ on the cycle at distance $k+1$ along the cycle.
+\item Since $\diam(G)=k$, there exists an $x$--$y$ path $P$ in $G$ of length at most $k$.
+\item Combining $P$ with the $x$--$y$ arc of the cycle of length $k+1$ gives a closed walk of length at most $k+(k+1)=2k+1$.
+\item Any closed walk contains a simple cycle of length at most the walk length, so $G$ contains a cycle of length at most $2k+1$.
+\item Therefore $\operatorname{girth}(G)\le 2k+1$. Together with the example $C_{2k+1}$, the maximum possible girth is $2k+1$.
+\end{enumerate}
+\end{proof}
+
+\newpage
+
+\section*{Question 7}
+Statement: Use Cayley’s Formula to prove that the graph obtained from $K_n$ by deleting an edge has $(n-2)n^{n-3}$ spanning trees.
+
+\begin{proof}
+~
+\begin{enumerate}
+\item Cayley’s formula gives that $K_n$ has $n^{n-2}$ spanning trees.
+\item By symmetry, every edge of $K_n$ lies in the same number $x$ of spanning trees.
+\item Count edge appearances in spanning trees in two ways:
+\begin{enumerate}
+\item Each spanning tree has $n-1$ edges, so total edge appearances is $(n^{n-2})(n-1)$.
+\item $K_n$ has $\binom{n}{2}=\frac{n(n-1)}{2}$ edges, so total edge appearances is also $\frac{n(n-1)}{2}\,x$.
+\end{enumerate}
+\item Solve equation:
+\[
+\frac{n(n-1)}{2}\,x=(n^{n-2})(n-1)
+\quad\Longrightarrow\quad
+x=2n^{n-3}.
+\]
+\item Fix an edge $e$. The number of spanning trees of $K_n$ that avoid $e$ is
+\[
+n^{n-2}-2n^{n-3}=(n-2)n^{n-3}.
+\]
+\item These are exactly the spanning trees of $K_n-e$.
+\end{enumerate}
+\end{proof}
+
+\newpage
+
+\section*{Question 8}
+Statement: Let $G$ be connected with $n$ vertices. Define $G'$ whose vertices are spanning trees of $G$, and two vertices are adjacent iff the corresponding spanning trees share exactly $n-2$ edges. Answer (a)--(e).
+
+\begin{enumerate}
+\item[(a)] If $G=C_n$, then $G'=K_n$.
+\begin{proof}
+~
+\begin{enumerate}
+\item A spanning tree of $C_n$ is obtained by deleting exactly one cycle edge.
+\item There are $n$ spanning trees, say $T_i=C_n-e_i$.
+\item For $i\neq j$, the intersection $E(T_i)\cap E(T_j)$ has size $n-2$.
+\item Thus every pair of vertices in $G'$ is adjacent, so $G'=K_n$.
+\end{enumerate}
+\end{proof}
+
+\item[(b)] If $C_m\subseteq G$, then $G'$ contains a clique $K_m$.
+\begin{proof}
+~
+\begin{enumerate}
+\item Let the cycle edges be $e_1,\dots,e_m$.
+\item Contract the entire cycle $C_m$ to a single vertex to obtain a connected graph $H$.
+\item Choose a spanning tree $S$ of $H$ and lift it back to a set $F$ of edges in $G$ that connects everything outside the cycle without creating cycles.
+\item For each $i\in\{1,\dots,m\}$ define
+\[
+T_i := F \cup (E(C_m)\setminus\{e_i\}).
+\]
+\item Each $T_i$ is a spanning tree.
+\item For $i\neq j$, $T_i$ and $T_j$ differ by exactly one edge (the deleted cycle edge), hence they are adjacent in $G'$.
+\item Therefore $\{T_1,\dots,T_m\}$ induces a $K_m$ in $G'$.
+\end{enumerate}
+\end{proof}
+
+\item[(c)] Find $G'$ for $G=P_n$, then finish: If $G$ is a tree, then \dots
+\begin{proof}
+~
+\begin{enumerate}
+\item $P_n$ is a tree, so it has exactly one spanning tree (itself).
+\item Hence $G'$ has exactly one vertex and no edges, so $G'\cong K_1$.
+\item More generally, if $G$ is a tree, then $G'$ is the one-vertex graph $K_1$.
+\end{enumerate}
+\end{proof}
+
+\item[(d)] If $n(G')\ge 2$, then $G'$ has no isolated vertex.
+\begin{proof}
+~
+\begin{enumerate}
+\item Let $T$ be any spanning tree of $G$.
+\item If $n(G')\ge 2$, then $G$ has at least two spanning trees, so $G$ is not a tree and there exists an edge $e\in E(G)\setminus E(T)$.
+\item Adding $e$ to $T$ creates a unique cycle $C$.
+\item Choose any edge $f\in E(C)$ with $f\neq e$ and set $T'=(T+e)-f$.
+\item Then $T'$ is a spanning tree adjacent to $T$ in $G'$, so $T$ is not isolated.
+\item Since $T$ was arbitrary, $G'$ has no isolated vertex.
+\end{enumerate}
+\end{proof}
+
+\item[(e)] $G'$ is connected.
+\begin{proof}
+~
+\begin{enumerate}
+\item Let $T_1,T_2$ be spanning trees of $G$.
+\item If $T_1\neq T_2$, choose an edge $e\in E(T_2)\setminus E(T_1)$.
+\item Add $e$ to $T_1$; this creates a unique cycle $C$ in $T_1+e$.
+\item Since $T_2$ is acyclic and contains $e$, the cycle $C$ contains some edge $f\in E(T_1)\setminus E(T_2)$.
+\item Define $T_1'=(T_1+e)-f$. Then $T_1'$ is adjacent to $T_1$ in $G'$.
+\item The number of edges shared with $T_2$ increases by $1$ at this step, because we added $e\in T_2$ and removed $f\notin T_2$.
+\item Repeating finitely many times yields $T_2$, producing a path from $T_1$ to $T_2$ in $G'$.
+\item Therefore $G'$ is connected.
+\end{enumerate}
+\end{proof}
+\end{enumerate}
+
+\newpage
+
+\section*{Question 9}
+Statement: Let $d(x,y)$ be the graph distance in $G$.
+(a) Prove the triangle inequality $d(u,v)\le d(u,z)+d(z,v)$.
+(b) Deduce that $\diam(G)\le 2\rad(G)$.
+
+\begin{enumerate}
+\item
+\begin{proof}
+~
+\begin{enumerate}
+\item Let $P_{uz}$ be a shortest $u$--$z$ path, so its length is $d(u,z)$.
+\item Let $P_{zv}$ be a shortest $z$--$v$ path, so its length is $d(z,v)$.
+\item Concatenating $P_{uz}$ and $P_{zv}$ gives a $u$--$v$ walk of length $d(u,z)+d(z,v)$.
+\item The shortest $u$--$v$ path cannot be longer than any $u$--$v$ walk, hence
+\[
+d(u,v)\le d(u,z)+d(z,v).
+\]
+\end{enumerate}
+\end{proof}
+
+\item
+\begin{proof}
+~
+\begin{enumerate}
+\item Let $r=\rad(G)=\min_{x\in V(G)}\ecc(x)$, and choose a center vertex $c$ with $\ecc(c)=r$.
+\item For any vertices $u,v$, apply (a) with $z=c$:
+\[
+d(u,v)\le d(u,c)+d(c,v).
+\]
+\item By definition of eccentricity, $d(u,c)\le \ecc(c)=r$ and $d(c,v)\le \ecc(c)=r$.
+\item Therefore $d(u,v)\le 2r$ for all $u,v$.
+\item Taking the maximum over all pairs gives $\diam(G)\le 2\rad(G)$.
+\end{enumerate}
+\end{proof}
+\end{enumerate}
+
+\end{document}

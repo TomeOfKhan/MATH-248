@@ -1,0 +1,323 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\setlist[enumerate]{itemsep=4pt}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+
+\title{\vspace{-2cm} Zian Kang}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Question 1}
+
+\textbf{Statement.} Let $G$ be a graph. For $v\in V(G)$ and $e\in E(G)$, describe the adjacency and incidence matrices of $G-v$ and $G-e$ in terms of the corresponding matrices for $G$.
+
+\medskip
+\noindent
+Define $V(G)=\{v_1,\dots,v_n\}$ and $E(G)=\{e_1,\dots,e_m\}$.
+Let $A(G)$ be the adjacency matrix and let $B(G)$ be the incidence matrix.
+
+\begin{enumerate}[label=(\alph*)]
+\item \textbf{Deleting a vertex.} Let $v=v_i$.
+\begin{itemize}
+\item The graph $G-v$ is obtained by deleting $v_i$ \emph{and all edges incident to $v_i$}.
+For the adjacency matrix, nothing among the remaining vertices changes, so
+\[
+A(G-v_i)=A(G)[\{1,\dots,n\}\setminus\{i\}],
+\]
+i.e.\ the $(n-1)\times(n-1)$ principal submatrix obtained by deleting row $i$ and column $i$.
+
+\item For the incidence matrix, we delete the row for $v_i$, and also delete every column corresponding to an edge incident with $v_i$ (since those edges are removed in $G-v_i$).
+Equivalently, if $S=\{j: e_j \text{ is incident with } v_i\}$, then
+\[
+B(G-v_i)=B(G)\big[\{1,\dots,n\}\setminus\{i\},\ \{1,\dots,m\}\setminus S\big].
+\]
+\end{itemize}
+
+\item \textbf{Deleting an edge.} Let $e=e_j$, with endpoints $v_p,v_q$.
+\begin{itemize}
+\item The incidence matrix of $G-e_j$ is obtained by deleting the column for $e_j$:
+\[
+B(G-e_j)=B(G)\big[ \{1,\dots,n\},\ \{1,\dots,m\}\setminus\{j\}\big].
+\]
+
+\item For the adjacency matrix, only the entries corresponding to the endpoints change.
+If $p\neq q$, then in $A(G)$ the $(p,q)$ and $(q,p)$ entries count how many edges join $v_p$ and $v_q$, so deleting $e_j$ decreases those two entries by $1$:
+\[
+A(G-e_j) = A(G) - (E_{pq}+E_{qp}),
+\]
+where $E_{pq}$ is the matrix with a $1$ in position $(p,q)$ and zeros elsewhere.
+
+\end{itemize}
+\end{enumerate}
+
+\newpage
+
+\section*{Question 2}
+\textbf{Statement.} Let $v$ be a vertex of a connected simple graph $G$. Prove that $v$ has a neighbor in every component of $G-v$. Conclude that no graph has a cut-vertex of degree $1$.
+
+\begin{proof}
+Let $C$ be any component of $G-v$, and $x$ be an arbitrary vertex $\in V(C)$.
+Since $G$ is connected, there exists a $v$--$x$ path in $G$:
+\[
+v=v_0, v_1, \dots, v_k=x.
+\]
+The first step $v_0v_1$ is an edge of $G$, so $v_1$ is a neighbor of $v$.
+Also, $v_1\neq v$ and all later vertices are in $G-v$, so $v_1\in V(G-v)$.
+Because the tail of the path $v_1,\dots,v_k$ lies entirely in $G-v$ and connects $v_1$ to $x\in C$, we have $v_1\in C$.
+Thus $v$ has a neighbor in $C$. Since $C$ was arbitrary, $v$ has a neighbor in every component of $G-v$.
+
+For the conclusion, suppose $v$ is a cut-vertex and $\deg(v)=1$.
+Then $G-v$ has at least two components, but $v$ has only one neighbor, hence can have neighbors in at most one component of $G-v$.
+This contradicts the first part. Therefore, no cut-vertex can have degree $1$.
+\end{proof}
+
+\newpage
+
+\section*{Question 3}
+\textbf{Statement.} Prove that a bipartite graph has a unique bipartition (except for interchanging the two partite sets) if and only if it is connected.
+
+\begin{proof}
+($\Rightarrow$) Suppose $G$ is bipartite and disconnected.
+Let its components be $G_1,\dots,G_t$ with $t\ge 2$.
+Pick a bipartition $(X_i,Y_i)$ of each component $G_i$.
+Then
+\[
+(X,Y)=\Big(\bigcup_{i=1}^t X_i,\ \bigcup_{i=1}^t Y_i\Big)
+\]
+is a bipartition of $G$.
+But we may interchange the bipartition on just one component, say $G_1$, and keep all others fixed:
+\[
+(X',Y')=\Big(Y_1\cup\bigcup_{i=2}^t X_i,\ \ X_1\cup\bigcup_{i=2}^t Y_i\Big).
+\]
+This is also a valid bipartition, and it is not obtained from $(X,Y)$ by swapping all of $X$ and $Y$ (because the swap was performed only on $G_1$).
+Hence the bipartition is not unique. Therefore, if the bipartition is unique up to interchange, $G$ must be connected.
+
+($\Leftarrow$) Now suppose $G$ is connected and bipartite.
+Fix a vertex $r\in V(G)$.
+Define
+\[
+X=\{u\in V(G): \operatorname{dist}(r,u)\text{ is even}\},\qquad
+Y=\{u\in V(G): \operatorname{dist}(r,u)\text{ is odd}\}.
+\]
+Because $G$ is bipartite, every edge joins vertices at distances of opposite parity from $r$, so there are no edges inside $X$ and no edges inside $Y$; hence $(X,Y)$ is a bipartition.
+
+For uniqueness: let $(X',Y')$ be any bipartition of $G$.
+Since $r\in X'$ or $r\in Y'$, assume $r\in X'$ (the other case will yield the global swap).
+We claim $X'=X$ and $Y'=Y$.
+Take any vertex $u$ and a shortest path from $r$ to $u$. Along that path, vertices alternate between the two partite sets, so the parity of the path length determines whether $u$ lies in the same part as $r$ or the opposite part.
+Thus $u\in X'$ iff $\operatorname{dist}(r,u)$ is even, i.e.\ iff $u\in X$.
+So $X'=X$ and $Y'=Y$.
+Therefore the bipartition is unique up to swapping the two sides.
+\end{proof}
+
+\newpage
+
+\section*{Question 4}
+\textbf{Statement.} Determine the values of $m$ and $n$ such that $K_{m,n}$ is Eulerian.
+
+\medskip
+\noindent
+In $K_{m,n}$, every vertex on the $m$-side has degree $n$, and every vertex on the $n$-side has degree $m$.
+A connected graph has an Euler circuit if and only if every vertex has even degree.
+
+If $m,n\ge 1$, then $K_{m,n}$ is connected. Hence $K_{m,n}$ is Eulerian iff $m$ and $n$ are both even.
+
+\newpage
+
+\section*{Question 5}
+\textbf{Statement.} Let $W$ be a closed walk of length at least $1$. Prove that if $W$ does not contain a cycle, then some edge of $W$ repeats immediately (once in each direction).
+
+\begin{proof}
+Proving by contrapositive and induction:
+
+\medskip
+\noindent If a closed walk $W$ has \emph{no} immediate repetition of an edge in opposite directions, then $W$ contains a cycle.
+
+\medskip
+\noindent Use induction on the length $\ell\ge 1$ of $W$.
+Write
+\[
+W:\ v_0,e_1,v_1,e_2,\dots,e_\ell,v_\ell
+\quad\text{with } v_\ell=v_0.
+\]
+
+\medskip
+\noindent\textbf{Base cases.}
+If $\ell=1$, then $e_1$ is a loop at $v_0$, which is a cycle of length $1$.
+If $\ell=2$, then $v_0\to v_1\to v_0$ is closed. If $e_2=e_1$ then there is an immediate backtrack; otherwise $e_1\neq e_2$ gives a $2$-cycle (two distinct edges joining the same pair of vertices), so $W$ contains a cycle.
+
+\medskip
+\noindent\textbf{Inductive step.}
+Assume the claim holds for all closed walks of length $<\ell$, where $\ell\ge 3$.
+Consider $W$ of length $\ell$ with no immediate backtrack.
+
+Since $v_0=v_\ell$, some vertex repeats in the sequence $v_0,v_1,\dots,v_\ell$.
+Let $j$ be the \emph{smallest} index $>0$ such that $v_j=v_i$ for some $0\le i<j$.
+Let $i$ be the \emph{largest} index $<j$ with $v_i=v_j$.
+By the choice of $j$ and $i$, the vertices
+\[
+v_i, v_{i+1},\dots, v_{j-1}
+\]
+are all distinct, and none equals $v_i$.
+Therefore the subwalk
+\[
+v_i, e_{i+1}, v_{i+1}, \dots, e_j, v_j(=v_i)
+\]
+is a closed walk with no repeated internal vertices; hence it is a cycle (of length $j-i\ge 1$).
+Thus $W$ contains a cycle.
+
+This proves the contrapositive and thus the original statement: if $W$ contains no cycle, then it must have an immediate edge repetition in opposite directions.
+\end{proof}
+
+\newpage
+
+\section*{Question 6}
+\textbf{Statement.} Let $v$ be a cut-vertex of a simple graph $G$. Prove that $\overline{G}-v$ is connected.
+
+
+\begin{proof}
+Since $v$ is a cut-vertex of $G$, the graph $G-v$ is disconnected. Let the connected components
+of $G-v$ be
+\[
+C_1, C_2, \dots, C_k \qquad (k\ge 2),
+\]
+each nonempty.
+
+First claiming
+\[
+\overline{G}-v \;=\; \overline{G-v}.
+\]
+Both graphs have vertex set $V(G)\setminus\{v\}$, and for any two distinct vertices
+$x,y\neq v$, the edge $xy$ is present in $G-v$ iff it is present in $G$; hence $xy$ is absent in $G-v$
+iff it is absent in $G$, so the complements agree on this vertex set.
+
+Now we prove that $\overline{G-v}$ is connected. Take any two vertices $x,y\in V(G)\setminus\{v\}$.
+
+\begin{itemize}
+\item If $x$ and $y$ lie in different components of $G-v$, then there is no edge between them in $G-v$.
+Hence $xy\in E(\overline{G-v})$, so $x$ and $y$ are adjacent in $\overline{G-v}$.
+
+\item If $x$ and $y$ lie in the same component $C_i$, then there is a vertex $z$ in a different component $C_j$
+with $j\neq i$ (possible since $k\ge 2$). Then $xz\notin E(G-v)$ and $zy\notin E(G-v)$, so
+\[
+xz\in E(\overline{G-v}) \quad\text{and}\quad zy\in E(\overline{G-v}),
+\]
+and therefore $x-z-y$ is a path in $\overline{G-v}$.
+\end{itemize}
+
+In all cases, any two vertices are joined by a path in $\overline{G-v}$, so $\overline{G-v}$ is connected.
+Thus $\overline{G}-v$ is connected.
+\end{proof}
+
+
+\newpage
+
+\section*{Question 7}
+\textbf{Statement.}Prove that a graph $G$ is bipartite if and only if every subgraph $H$ of $G$ has an independent set consisting of at least half of $V(H)$.
+
+\begin{proof}
+($\Rightarrow$) Suppose $G$ is bipartite.
+Then every subgraph $H$ of $G$ is also bipartite by restricting the bipartition to $V(H)$.
+Let $(X,Y)$ be a bipartition of $H$.
+Both $X$ and $Y$ are independent sets, and $|X|+|Y|=|V(H)|$.
+Hence $\max\{|X|,|Y|\}\ge |V(H)|/2$.
+So $H$ has an independent set of size at least $|V(H)|/2$.
+
+($\Leftarrow$) Suppose every subgraph $H$ of $G$ has an independent set of size at least $|V(H)|/2$.
+Prove by showing $G$ has no odd cycle.
+If $G$ contained an odd cycle $C_{2k+1}$ as a subgraph, then the largest independent set in $C_{2k+1}$ has size $k$ (at most one from each adjacent pair around the cycle).
+But $k < (2k+1)/2$, contradicting the hypothesis for $H=C_{2k+1}$.
+Therefore $G$ has no odd cycle.
+
+A standard characterization says a graph is bipartite if and only if it has no odd cycle.
+Hence $G$ is bipartite.
+\end{proof}
+
+\newpage
+
+\section*{Question 8}
+\textbf{Statement.} Prove that every $n$-vertex graph with at least $n$ edges contains a cycle.
+
+\begin{proof}
+Prove by contrapositive: if a graph $G$ has no cycle, then it has at most $n-1$ edges.
+
+If $G$ has no cycle, then $G$ is a  disjoint union of trees.
+Each tree on $t$ vertices has exactly $t-1$ edges.
+If the components of $G$ have vertex counts $t_1,\dots,t_k$ with $\sum t_i=n$, then
+\[
+|E(G)|=\sum_{i=1}^k (t_i-1)=\Big(\sum_{i=1}^k t_i\Big)-k = n-k \le n-1,
+\]
+since $k\ge 1$ when $n\ge 1$.
+Thus a cycle-free $n$-vertex graph has at most $n-1$ edges.
+
+Therefore, if $|E(G)|\ge n$, $G$ cannot be cycle-free; it must contain a cycle.
+\end{proof}
+
+\newpage
+
+\section*{Question 9}
+\textbf{Statement.} Let $G$ and $H$ be two simple graphs. Show that $G \cong H$ if and only if there exists a permutation matrix $P$ such that $A(G)=P\,A(H)\,P^{T}$.
+
+\begin{proof}
+($\Rightarrow$) Suppose $G\cong H$.
+Let $V(G)=\{v_1,\dots,v_n\}$ and $V(H)=\{w_1,\dots,w_n\}$.
+Let $\varphi:V(H)\to V(G)$ be an isomorphism, and let $\pi$ be the corresponding permutation of $\{1,\dots,n\}$ such that $\varphi(w_j)=v_{\pi(j)}$.
+Let $P$ be the permutation matrix with entries
+\[
+P_{\,\pi(j),\,j}=1 \quad\text{and}\quad 0 \text{ otherwise.}
+\]
+Then $(P A(H) P^T)_{ij} = A(H)_{\pi^{-1}(i),\pi^{-1}(j)}$.
+Because $\varphi$ preserves adjacency,
+\[
+A(G)_{ij}=1 \iff v_i v_j\in E(G)
+\iff w_{\pi^{-1}(i)} w_{\pi^{-1}(j)}\in E(H)
+\iff A(H)_{\pi^{-1}(i),\pi^{-1}(j)}=1,
+\]
+and similarly for $0$. Hence $A(G)=P A(H) P^T$.
+
+($\Leftarrow$) Conversely, suppose $A(G)=P A(H) P^T$ for some permutation matrix $P$.
+Then $P$ corresponds to a permutation $\pi$ of $\{1,\dots,n\}$.
+Define a bijection $\varphi:V(H)\to V(G)$ by $\varphi(w_j)=v_{\pi(j)}$.
+For any $a,b$,
+\[
+A(H)_{ab}=1 \iff (P A(H) P^T)_{\pi(a),\pi(b)}=1 \iff A(G)_{\pi(a),\pi(b)}=1,
+\]
+so $w_a w_b\in E(H)$ iff $\varphi(w_a)\varphi(w_b)\in E(G)$.
+Thus $\varphi$ is an isomorphism, so $G\cong H$.
+\end{proof}
+
+\newpage
+
+\section*{Question 10}
+\textbf{Statement.} Prove that the cycle $C_n$ has $2n$ automorphisms.
+
+\begin{proof}
+Label the vertices of $C_n$ in cyclic order as $1,2,\dots,n$.
+Let $\alpha$ be an automorphism of $C_n$.
+
+The image of vertex $1$ can be any vertex, so there are $n$ choices for $\alpha(1)$.
+Once $\alpha(1)$ is chosen, vertex $2$ must map to a neighbor of $\alpha(1)$ (since automorphisms preserve adjacency).
+In $C_n$, every vertex has exactly two neighbors, so there are exactly $2$ choices for $\alpha(2)$.
+
+Then claim these choices uniquely determine $\alpha$ because $C_n$ is a cycle, vertex $3$ is the unique vertex adjacent to $2$ but not equal to $1$.
+Thus $\alpha(3)$ must be the unique vertex adjacent to $\alpha(2)$ but not equal to $\alpha(1)$.
+Proceeding inductively, for each $k\ge 3$, the vertex $k$ is determined by its adjacency pattern with $k-1$ and $k-2$, so $\alpha(k)$ is forced.
+Hence, for each choice of $\alpha(1)$ and $\alpha(2)$ (neighbor of $\alpha(1)$), there is at most one automorphism.
+
+Conversely, each such choice does produce a valid automorphism: choosing $\alpha(2)$ as the ``forward'' neighbor of $\alpha(1)$ yields a rotation, while choosing the ``backward'' neighbor yields a reflection composed with a rotation.
+Therefore there are exactly $n\cdot 2 = 2n$ automorphisms of $C_n$.
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

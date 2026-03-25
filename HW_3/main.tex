@@ -1,0 +1,354 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\setlist[enumerate]{itemsep=4pt}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+
+\title{\vspace{-2cm} Zian Kang}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Question 1}
+Statement: Let $G$ be a simple graph with adjacency matrix $A$. Show that for any integer $k \ge 1$,
+$(A^k)_{ij}$ equals the number of $v_i, v_j$-walks of length $k$ in $G$.
+
+~
+
+Prove by induction on $k\ge 1$ that $(A^k)_{ij}$ equals the number of $v_i,v_j$-walks
+of length $k$ in $G$.
+
+\begin{proof}
+    \begin{enumerate}
+\item Base case $k=1$: $(A)_{ij}=1$ iff $v_iv_j\in E(G)$, i.e. iff there is a walk of length $1$
+from $v_i$ to $v_j$, and $0$ otherwise. So the claim holds.
+
+\item Induction Hypothesis: $(A^k)_{ij}$ equals the number of $v_i,v_j$-walks of length $k$ in $G$.
+
+\item Inductive step: assume Induction Hypothesis is true. Then for $k+1$:
+\[
+(A^{k+1})_{ij}=(A^kA)_{ij}=\sum_{t=1}^n (A^k)_{it}A_{tj}.
+\]
+For a fixed $t$, by induction hypothesis $(A^k)_{it}$ is the number of $v_i,v_t$-walks of length $k$,
+and $A_{tj}=1$ exactly when $v_tv_j$ is an edge.
+Hence $(A^k)_{it}A_{tj}$ counts the number of length-$k$ walks from $v_i$ to $v_t$ that can be extended
+to a length-$(k+1)$ walk ending at $v_j$ via $v_t$. Summing over $t$ counts all $v_i,v_j$-walks
+of length $k+1$, partitioned by their second-to-last vertex. Thus the statement holds for $k+1$.
+
+\item So Induction Hypothesis is true, i.e. for any $k\ge1$, $(A^k)_{ij}$ equals the number of $v_i,v_j$-walks of length $k$ in $G$.
+
+\end{enumerate}
+\end{proof}
+
+\newpage
+
+\section*{Question 2}
+Statement: If $u$ and $v$ are the only vertices of odd degree in a graph $G$, then $G$ contains a $u,v$-path.
+
+~
+
+\begin{proof}
+    In every component, the number of odd-degree vertices is even, by Handshake Lemma (as component itself can be seen as a graph).
+
+    ~
+    
+\noindent Let $C_u$ be the component containing $u$. Since $u$ is odd, $C_u$ must contain another odd vertex.
+The only odd vertices in $G$ are $u$ and $v$, so $v\in C_u$. Therefore $u$ and $v$ lie in the same component,
+hence there is a path between them.
+\end{proof}
+
+\newpage
+
+\section*{Question 3}
+
+Statement:  Let $u$ and $v$ be adjacent vertices in a simple graph $G$. Prove that $uv$ belongs to at least $d(u)+d(v)-n(G)$ triangles
+
+
+~
+
+\begin{proof}
+    Let $u$ and $v$ be adjacent in a simple graph $G$ with $n=n(G)$.
+
+
+    ~
+    
+    Triangles containing the edge $uv$ are in bijection with common neighbors of $u$ and $v$,
+so the number of such triangles is $|N(u)\cap N(v)|$.
+
+Let $A=N(u)\setminus\{v\}$ and $B=N(v)\setminus\{u\}$. Then $|A|=d(u)-1$, $|B|=d(v)-1$,
+and $A\cup B\subseteq V(G)\setminus\{u,v\}$, so $|A\cup B|\le n-2$.
+
+~
+
+By inclusion--exclusion,
+\[
+|A\cap B|=|A|+|B|-|A\cup B|\ge (d(u)-1)+(d(v)-1)-(n-2)=d(u)+d(v)-n.
+\]
+But $A\cap B=N(u)\cap N(v)$, so $uv$ lies in at least $d(u)+d(v)-n(G)$ triangles.
+\end{proof}
+
+\newpage
+
+\section*{Question 4}
+
+Statement: Prove that the number of simple even graphs with vertex set $[n]$ is $2^{\binom{n-1}{2}}$.
+
+\begin{proof}
+    An even graph means every vertex has even degree.
+
+Define a map $\Phi$ from graphs on $\{2,3,\dots,n\}$ to even graphs on $[n]$ as follows:
+given any simple graph $H$ on $\{2,\dots,n\}$, create $G=\Phi(H)$ by adding vertex $1$ and joining $1$ to
+exactly those vertices of odd degree in $H$. Then for $i\in\{2,\dots,n\}$ the degree parity of $i$ flips
+iff $i$ is added, so $\deg_G(i)$ becomes even. Since the sum of all degrees is even, once all
+$\deg_G(2),\dots,\deg_G(n)$ are even, $\deg_G(1)$ is also even. Hence $G$ is an even graph.
+
+Conversely, given an even graph $G$ on $[n]$, delete vertex $1$ and all incident edges; the remaining graph
+$H$ on $\{2,\dots,n\}$ determines exactly which vertices had their degree parity corrected by edges to $1$,
+so $G$ reconstructs uniquely from $H$ by the rule above. Thus $\Phi$ is a bijection.
+
+Therefore the number of even graphs on $[n]$ equals the number of graphs on $n-1$ labeled vertices, which is
+\[
+\boxed{2^{\binom{n-1}{2}}.}
+\]
+\end{proof}
+
+\newpage
+
+\section*{Question 5}
+
+Statement: Let $G$ be an $n$-vertex simple graph, where $n\ge 2$. Determine the maximum possible numbers of edges in $G$ under each of the following conditions. a) $G$ has an independent set of size $\alpha$. b) $G$ has exactly $k$ components. c) $G$ is disconnected.
+
+~
+
+Let $G$ be an $n$-vertex simple graph, $n\ge 2$.
+
+\subsection*{(a)}
+Fix an independent set $S$ with $|S|=a$. Then all $\binom{a}{2}$ pairs inside $S$ are nonedges.
+So
+\[
+e(G)\le \binom{n}{2}-\binom{a}{2}.
+\]
+Equality is achieved by taking $K_n$ and deleting all edges inside $S$ (keeping all other edges).
+Hence the maximum is $\boxed{\binom{n}{2}-\binom{a}{2}}$.
+
+\subsection*{(b)}
+Let component sizes be $n_1,\dots,n_k$ with $\sum n_i=n$. Then
+\[
+e(G)\le \sum_{i=1}^k \binom{n_i}{2},
+\]
+with equality when each component is complete. The sum $\sum \binom{n_i}{2}$ is maximized by making one
+component as large as possible and the others isolated: $(n-k+1,1,\dots,1)$.
+Thus the maximum is $\boxed{\binom{n-k+1}{2}}$.
+
+\subsection*{(c)}
+This means at least $2$ components. The maximum occurs at $k=2$ and split $(n-1,1)$, giving
+$\boxed{\binom{n-1}{2}}$.
+
+\newpage
+
+\section*{Question 6}
+
+Statement: Let $G$ be a nonbipartite triangle-free simple graph with $n$ vertices and $\delta(G)=k$. Let $\ell$ be the minimum length of an odd cycle in $G$. (a) Let $C$ be a cycle of length $\ell$ in $G$. Prove that every vertex not in $V(C)$ has at most two neighbors in $V(C)$. (b) Count the edges joining $V (C)$ and $V (G)-V(C)$ in two different ways to prove $n \ge \frac{k\ell}{2}$.
+
+~
+
+
+Let $G$ be a nonbipartite triangle-free simple graph on $n$ vertices with $\delta(G)=k$.
+Let $\ell$ be the minimum length of an odd cycle in $G$.
+
+\subsection*{Lemma: a shortest odd cycle is chordless}
+Let $C$ be an odd cycle of length $\ell$. If $C$ had a chord joining two nonconsecutive vertices,
+then that chord plus one of the two paths between its endpoints along $C$ forms a smaller cycle.
+Since $\ell$ is odd, the two path-lengths have opposite parity, so one of the two resulting cycles is odd
+and strictly shorter than $\ell$, contradicting minimality. Hence $C$ has no chord.
+
+\subsection*{(a)}
+\begin{proof}
+    Let $x\notin V(C)$. Suppose $x$ has three neighbors on $C$, call them $p,q,r$ in cyclic order.
+These three vertices split $C$ into three internally disjoint arcs with lengths $a,b,c\ge 1$ and
+$a+b+c=\ell$. Because $G$ is triangle-free, no two of $p,q,r$ can be adjacent on $C$, so 
+$a,b,c\ge 2$. Since $\ell$ is odd, at least one of $a,b,c$ is odd; say $a$ is odd and it is the length
+of the arc from $p$ to $q$ along $C$.
+Then the cycle formed by the odd arc (length $a$) together with edges $xp$ and $xq$ has length $a+2$,
+which is odd and satisfies
+\[
+a+2 \le (\ell-4)+2 = \ell-2 < \ell,
+\]
+contradiction with minimality of $\ell$. Hence $x$ has at most two neighbors in $V(C)$.
+\end{proof}
+
+\subsection*{(b)}
+Let $S=V(C)$, so $|S|=\ell$. Let $m$ be the number of edges with one endpoint in $S$ and the other in $V(G)\setminus S$.
+
+Count $m$ from the $S$ side: by the Lemma, $C$ is chordless, so each vertex of $C$ has exactly $2$ neighbors in $S$.
+Since $\delta(G)=k$, each vertex of $C$ has at least $k-2$ neighbors outside $S$. Therefore
+\[
+m \ge \ell (k-2).
+\]
+
+Count $m$ from the outside: by part (a), each vertex in $V(G)\setminus S$ has at most $2$ neighbors in $S$,
+so
+\[
+m \le 2(n-\ell).
+\]
+
+Combine:
+\[
+\ell(k-2) \le 2(n-\ell) \implies
+n \ge \frac{k\ell}{2}.
+\]
+
+\newpage
+
+\section*{Question 7}
+
+Statement: (a) Prove that if all vertices of a graph have even degree then there is no cut-edge. (b) For each $k \ge 1$, construct a $2k +1$-regular simple graph having a cut edge.
+
+~
+
+\subsection*{(a)}
+\begin{proof}
+    Let $e=xy$ be any edge of $G$, and let $H$ be the connected component containing $e$.
+Since all degrees in $H$ are even, $H$ has an Euler circuit.
+In that Euler circuit, the edge $e$ appears on a closed walk; removing $e$ from the circuit leaves a
+walk from $x$ to $y$ using only edges of $H-e$. Hence $x$ and $y$ remain connected in $H-e$, so $e$ is not a cut-edge.
+Thus $G$ has no cut-edge.
+\end{proof}
+
+\subsection*{(b)}
+Let $d=2k+1$ (odd). Build a graph $H_d$ on $d+2$ vertices as follows.
+
+Start with $K_{d+2}$ on vertices
+\[
+\{x, v_1, v_2, v_3, \dots, v_{d+1}\}.
+\]
+Delete the two edges $xv_1$ and $xv_2$.
+Now the degrees are: $\deg(x)=d-1$, $\deg(v_1)=\deg(v_2)=d$, and $\deg(v_i)=d+1$ for $i\ge 3$.
+
+Since $d-1$ is even, the set $\{v_3,\dots,v_{d+1}\}$ has even size, so it has a perfect matching.
+Delete all edges of that matching. This reduces each $\deg(v_i)$ for $i\ge 3$ by $1$, so now
+\[
+\deg(x)=d-1,\qquad \deg(v_i)=d \text{ for all } i=1,\dots,d+1.
+\]
+Thus $H_d$ has exactly one vertex of degree $d-1$ (namely $x$) and all others of degree $d$.
+
+Now take two disjoint copies of $H_d$, with special vertices $x$ and $x'$.
+Add the single edge $xx'$. This increases $\deg(x)$ and $\deg(x')$ by $1$, producing a $d$-regular simple graph.
+Moreover, $xx'$ is the only edge between the two copies, so it is a cut-edge.
+
+\newpage
+
+\section*{Question 8}
+
+Statement: (a) For each $k \ge 1$ and each loopless graph $G$, prove that $G$ has a $k$-partite subgraph $H$ with the same vertex set as $G$ and with $e(H) \ge (1 - \frac1k )e(G)$.(b) Find a bipartite subgraph of $K_5$ with the maximum number of edges and explain why your answer is indeed the maximum. What fraction of the edges of $K_5$ does your example use?
+
+~
+
+A graph is $k$-partite if its vertices can be partitioned into $k$ independent sets.
+
+\subsection*{(a)}
+\begin{proof}
+    Let $G$ be loopless. Assign each vertex arbitrarily to one of $k$ parts
+$V_1,\dots,V_k$. Let $H$ be the spanning subgraph consisting of edges whose endpoints land in different parts.
+Then $H$ is $k$-partite by construction.
+
+For an edge $uv\in E(G)$, the probability that $u$ and $v$ land in the same part is $1/k$,
+so the probability the edge is in $H$ is $1-1/k$. Adding up the expectation of all the edges:
+\[
+E[e(H)] = \left(1-\frac{1}{k}\right)e(G).
+\]
+Therefore some outcome has $e(H)\ge \left(1-\frac{1}{k}\right)e(G)$.
+\end{proof}
+
+\subsection*{(b)}
+A bipartite graph has a partition $(X,Y)$ with no edges inside $X$ or inside $Y$.
+On $5$ vertices, the maximum number of cross-edges occurs when the partition is as balanced as possible:
+$|X|=2$, $|Y|=3$. Then the complete bipartite graph $K_{2,3}$ has $2\cdot 3=6$ edges.
+
+This is maximal because any bipartite subgraph of $K_5$ has at most $|X||Y|$, and $|X||Y|$
+is maximized at $(2,3)$ among integer splits of $5$.
+Since $e(K_5)=10$, the best fraction is $6/10=3/5$.
+
+\newpage
+
+\section*{Question 9}
+
+Statement: Let $G$ be a kite-free simple graph with $n$ vertices such that every pair of nonadjacent vertices has exactly two common neighbors. Kite is $K_4$ minus an edge. Prove that $G$ is a regular graph.
+
+~
+
+Fix a vertex $x$ and let $d=\deg(x)$.
+
+\begin{proof}
+    \begin{enumerate}
+        \item 
+Take any $u\in N(x)$. If $u$ had two distinct neighbors $p,q$ in $N(x)$, then $x$ and $u$ are adjacent
+and have two common neighbors $p,q$, which forms a kite on $\{x,u,p,q\}$. Since $G$ is kite-free,
+each $u\in N(x)$ has at most one neighbor in $N(x)$. Hence the induced subgraph $G[N(x)]$ has maximum degree $1$,
+so it is a matching isolated vertices. Let
+\[
+m = e(G[N(x)]).
+\]
+Then $0\le m \le \lfloor d/2\rfloor$.
+
+\item 
+Let $\overline{N}(x)=V(G)\setminus (N(x)\cup\{x\})$ be the set of nonneighbors of $x$.
+
+If $y\in \overline{N}(x)$, then $x$ and $y$ are nonadjacent, so they have exactly two common neighbors.
+Both common neighbors lie in $N(x)$, and they cannot be adjacent to each other; otherwise those adjacent common neighbors
+together with $x$ and $y$ would form a kite. Thus each $y\in\overline{N}(x)$ yields a nonedge inside $N(x)$.
+
+Conversely, let $\{a,b\}$ be a nonadjacent pair in $N(x)$. Since $a$ and $b$ are nonadjacent, they have exactly
+two common neighbors. One is $x$, and let the other be $y\neq x$.
+If $y$ were adjacent to $x$, then the adjacent pair $x,y$ would have two common neighbors $a,b$, again forming a kite.
+Hence $y$ is not adjacent to $x$, i.e.\ $y\in \overline{N}(x)$.
+
+Also, if two different nonedges in $N(x)$ produced the same $y$, then $x$ and $y$ would have more than two common neighbors,
+contradicting the hypothesis. Therefore this correspondence is a bijection.
+
+Thus
+\[
+|\overline{N}(x)| = \#\{\text{nonedges in }G[N(x)]\}.
+\]
+But $|\overline{N}(x)|=n-1-d$, and the number of nonedges inside $N(x)$ is $\binom{d}{2}-m$.
+Therefore
+\[
+n-1-d = \binom{d}{2}-m
+\quad\Longrightarrow\quad
+m = \binom{d}{2}-(n-1-d) = \frac{d(d+1)}{2} - n + 1.
+\]
+
+\item 
+Since $G[N(x)]$ is a matching, $m$ satisfies $0\le m \le d/2$. Replacing $m$ with equation above:
+\[
+0 \le \frac{d(d+1)}{2} - n + 1 \le \frac{d}{2}.
+\]
+Reduce the right inequality:
+\[
+\frac{d(d+1)}{2} - n + 1 \le \frac{d}{2}
+\iff d^2 \le 2n-2.
+\]
+Reduce the left inequality:
+\[
+\frac{d(d+1)}{2} - n + 1 \ge 0
+\iff 2n-2 \le d(d+1)=d^2+d.
+\]
+Hence
+\[
+d^2 \le 2n-2 \le d^2+d.
+\]
+For $d\ge 1$, the intervals $[d^2,\,d^2+d]$ for different $d$ are disjoint because
+\[
+d^2+d < (d+1)^2.
+\]
+Therefore there is at most one integer $d$ satisfying $d^2 \le 2n-2 \le d^2+d$.
+So every vertex $x$ must have the same degree $d$, and $G$ is regular.
+    \end{enumerate}
+\end{proof}
+
+\end{document}
